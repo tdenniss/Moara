@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/MoaraClient">
+        <file alias="black">Resources/black.png</file>
+        <file alias="red">Resources/red.png</file>
+        <file alias="white">Resources/white.png</file>
+    </qresource>
+</RCC>
