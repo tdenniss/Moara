@@ -183,7 +183,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="IBoard.h" />
+    <ClInclude Include="IBoardComputer.h" />
     <ClInclude Include="IBoardLoader.h" />
+    <ClInclude Include="IComputerLevel.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IGameConfig.h" />
     <ClInclude Include="IGameListener.h" />

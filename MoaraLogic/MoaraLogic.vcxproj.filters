@@ -168,6 +168,12 @@
     <ClInclude Include="RemovePlayer.h">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="IComputerLevel.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="IBoardComputer.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MoaraLogic.cpp">
