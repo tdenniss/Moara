@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Commands">
       <UniqueIdentifier>{bb9df9b1-a9f5-43b1-b0a5-bc60f772b37e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ComputerPlayer">
+      <UniqueIdentifier>{215f0269-2840-42bd-857e-b157d3bec22c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ComputerPlayer">
+      <UniqueIdentifier>{e9dfee3b-8daf-4597-977d-be3ca1385afe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -174,6 +180,15 @@
     <ClInclude Include="IBoardComputer.h">
       <Filter>Header Files\API</Filter>
     </ClInclude>
+    <ClInclude Include="EasyComputerLevel.h">
+      <Filter>Header Files\ComputerPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="MediumComputerLevel.h">
+      <Filter>Header Files\ComputerPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="HardComputerLevel.h">
+      <Filter>Header Files\ComputerPlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MoaraLogic.cpp">
@@ -226,6 +241,15 @@
     </ClCompile>
     <ClCompile Include="NormalBoard.cpp">
       <Filter>Source Files\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyComputerLevel.cpp">
+      <Filter>Source Files\ComputerPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="MediumComputerLevel.cpp">
+      <Filter>Source Files\ComputerPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="HardComputerLevel.cpp">
+      <Filter>Source Files\ComputerPlayer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

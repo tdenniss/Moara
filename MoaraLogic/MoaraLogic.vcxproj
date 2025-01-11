@@ -171,6 +171,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DiagonalsBoard.h" />
     <ClInclude Include="DiagonalsNode.h" />
+    <ClInclude Include="EasyComputerLevel.h" />
     <ClInclude Include="EBoardSize.h" />
     <ClInclude Include="EBoardState.h" />
     <ClInclude Include="EBoardType.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameConfig.h" />
+    <ClInclude Include="HardComputerLevel.h" />
     <ClInclude Include="IBoard.h" />
     <ClInclude Include="IBoardComputer.h" />
     <ClInclude Include="IBoardLoader.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="IGameListener.h" />
     <ClInclude Include="INode.h" />
     <ClInclude Include="IPlayer.h" />
+    <ClInclude Include="MediumComputerLevel.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NormalBoard.h" />
@@ -209,8 +212,11 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="DiagonalsBoard.cpp" />
     <ClCompile Include="DiagonalsNode.cpp" />
+    <ClCompile Include="EasyComputerLevel.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HardComputerLevel.cpp" />
+    <ClCompile Include="MediumComputerLevel.cpp" />
     <ClCompile Include="MoaraLogic.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Node.cpp" />
