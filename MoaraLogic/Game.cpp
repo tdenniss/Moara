@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "FileManager.h"
 #include "IGameListener.h"
+#include "MediumComputerLevel.h"
+#include "HardComputerLevel.h"
+#include "EasyComputerLevel.h"
 #include "Place.h"
 #include "Move.h"
 #include "Remove.h"
@@ -227,9 +230,58 @@ int Game::GetActivePlayerIndex() const
 	return m_activePlayer;
 }
 
+void Game::SetComputerLevel(EComputerLevel level)
+{
+	InitLevel(level);
+}
+
+void Game::SetComputerLevel(ComputerLevelPtr computerLevel)
+{
+	m_computer = computerLevel;
+}
+
 void Game::SetPlayerConfig(PlayerConfig& config)
 {
 	InitPlayers(config.GetConfig());
+}
+
+void Game::LetComputerPlay()
+{
+	if (m_players[m_activePlayer]->IsComputer() == true)
+	{
+		EPieceType computerPieceType = m_players[m_activePlayer]->GetType();
+
+		uint8_t whereToPlace;
+		MovePosition whereToMove;
+		uint8_t whereToRemove;
+
+		switch (m_state)
+		{
+		case EGameState::Placing:
+			whereToPlace = m_computer->GetPlacingIndex(m_board, computerPieceType);
+
+			PlacePiece(whereToPlace);
+			break;
+		case EGameState::Moving:
+			whereToMove = m_computer->GetMovingIndex(m_board, computerPieceType);
+
+			MovePiece(whereToMove.first, whereToMove.second);
+			break;
+		default:
+			break;
+		}
+
+		if (m_state == EGameState::Removing)
+		{
+			whereToRemove = m_computer->GetRemovingIndex(m_board, computerPieceType);
+			RemovePiece(whereToRemove);
+		}
+	}
+}
+
+bool Game::IsComputerTurn()
+{
+	return m_players[m_activePlayer]->IsComputer();
 }
 
 void Game::RemoveListener(ListenerWeakPtr listener)
@@ -348,6 +400,26 @@ NotifyFunction Game::GetNotifyPlayerRemoved(EPieceType who)
 		};
 }
 
+void Game::InitLevel(EComputerLevel level)
+{
+	switch (level)
+	{
+	case EComputerLevel::None:
+		m_computer = nullptr;
+		break;
+	case EComputerLevel::Easy:
+		m_computer = std::make_shared<EasyComputerLevel>();
+		break;
+	case EComputerLevel::Medium:
+		m_computer = std::make_shared<MediumComputerLevel>();
+		break;
+	case EComputerLevel::Hard:
+		m_computer = std::make_shared<HardComputerLevel>();
+	default:
+		break;
+	}
+}
+
 void Game::InitPlayers(const Config& playersConfig)
 {
 	m_players.clear();
@@ -355,7 +427,7 @@ void Game::InitPlayers(const Config& playersConfig)
 	{
 		auto [type, isComputer] = config;
 
-		m_players.emplace_back(std::make_shared<Player>(static_cast<EPieceType>(type)));
+		m_players.emplace_back(std::make_shared<Player>(static_cast<EPieceType>(type), isComputer));
 	}
 }
 

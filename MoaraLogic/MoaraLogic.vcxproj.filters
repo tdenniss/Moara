@@ -189,6 +189,9 @@
     <ClInclude Include="HardComputerLevel.h">
       <Filter>Header Files\ComputerPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="EComputerLevel.h">
+      <Filter>Header Files\API\Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MoaraLogic.cpp">

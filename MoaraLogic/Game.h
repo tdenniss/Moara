@@ -67,7 +67,12 @@ public:
 	void LoadGame(const std::string& filePath) override final;
 	void SaveGame(const std::string& filePath) const override final;
 
+	void SetComputerLevel(ComputerLevelPtr computerLevel) override;
+	void SetComputerLevel(EComputerLevel level) override;
 	void SetPlayerConfig(PlayerConfig& config) override;
+
+	void LetComputerPlay() override;
+	bool IsComputerTurn() override;
 
 	size_t HowManyListeners();
 	void SetGameState(EGameState state);
@@ -75,6 +80,7 @@ public:
 	int GetActivePlayerIndex() const override;
 
 private:
+	void InitLevel(EComputerLevel level);
 	void InitPlayers(const Config& playersConfig);
 	void InitBoard(const BoardConfigMatrix& boardMatrix, EBoardType type, int piecesToPlace);
 
@@ -94,6 +100,7 @@ private:
 	NotifyFunction GetNotifyWindmill();
 	NotifyFunction GetNotifyPlayerChanged(EPieceType playerType);
 	NotifyFunction GetNotifyPlayerRemoved(EPieceType who);
+
 private:
 	Listeners		m_listeners;
 	PlayerPtrList	m_players;
@@ -101,6 +108,7 @@ private:
 	EGameState		m_state;
 	Commands		m_moves;
 	EPlayerType		m_winner;
+	ComputerLevelPtr m_computer;
 
 	int				m_activePlayer;
 

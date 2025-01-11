@@ -4,9 +4,11 @@
 #include "EBoardSize.h"
 #include "EGameState.h"
 #include "EPieceType.h"
+#include "EComputerLevel.h"
 
 #include "IGameConfig.h"
 #include "IGameListener.h"
+#include "IComputerLevel.h"
 
 #include <vector>
 #include <string>
@@ -48,6 +50,10 @@ public:
     virtual void Undo() = 0;
     virtual void LoadGame(const std::string& filePath) = 0;
     virtual void SaveGame(const std::string& filePath) const = 0;
+    virtual void LetComputerPlay() = 0;
+    virtual bool IsComputerTurn() = 0;
+    virtual void SetComputerLevel(ComputerLevelPtr computerLevel) = 0;
+    virtual void SetComputerLevel(EComputerLevel level) = 0;
     virtual void SetPlayerConfig(PlayerConfig& config) = 0;
 
     virtual ~IGame() = default;

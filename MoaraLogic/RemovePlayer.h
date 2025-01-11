@@ -20,6 +20,7 @@ public:
 
 private:
 	EPlayerType m_player;
+	bool m_isComputer;
 	EGameState m_lastState;
 	Indexes m_piecesIndexes;
 };

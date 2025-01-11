@@ -60,7 +60,7 @@ void RemovePlayer::Undo()
 {
 	m_game->m_state = m_lastState;
 
-	PlayerPtr player = std::make_shared<Player>(m_player);
+	PlayerPtr player = std::make_shared<Player>(m_player, m_isComputer);
 
 	if (m_game->m_activePlayer == 0)
 		m_game->m_players.push_back(player);

@@ -175,6 +175,7 @@
     <ClInclude Include="EBoardSize.h" />
     <ClInclude Include="EBoardState.h" />
     <ClInclude Include="EBoardType.h" />
+    <ClInclude Include="EComputerLevel.h" />
     <ClInclude Include="EGameState.h" />
     <ClInclude Include="ENeighboursPosition.h" />
     <ClInclude Include="EnumStringMaker.h" />
