@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "Game.h"
 #include "Player.h"
 #include "FileManager.h"
@@ -33,11 +34,12 @@ Game::Game()
 	, m_state{ EGameState::Placing }
 	, m_winner{ EPlayerType::None }
 	, m_players{}
-{
-}
+{}
 
 void Game::Initialize(GameConfigPtr& gameConfig)
 {
+	InitLevel(gameConfig->GetComputerLevel());
+
 	InitPlayers(gameConfig->GetPlayerConfig());
 
 	InitBoard(gameConfig->GetBoardConfigMatrix(), gameConfig->GetBoardType(), gameConfig->GetNumberOfPiecesToPlace());
@@ -195,6 +197,16 @@ void Game::SetBoard(IBoardPtr board)
 	m_board = board;
 }
 
+void Game::SetComputerLevel(EComputerLevel level)
+{
+	InitLevel(level);
+}
+
+void Game::SetComputerLevel(ComputerLevelPtr computerLevel)
+{
+	m_computer = computerLevel;
+}
+
 EPieceType Game::GetNode(uint8_t nodeIndex) const
 {
 	return m_board->GetNodeType(nodeIndex);
@@ -207,42 +219,16 @@ NodeList Game::GetAllNodes() const
 
 void Game::NextPlayer()
 {
-	NotifyAll(GetNotifyPlayerChanged(GetActivePlayer()));
+	m_activePlayer = ++m_activePlayer % m_players.size();
+
+	NotifyAll(GetNotifyPlayerChanged(GetActivePlayer(), m_players[m_activePlayer]->IsComputer()));
 }
 
 void Game::PrevPlayer()
 {
-	NotifyAll(GetNotifyPlayerChanged(GetActivePlayer()));
-}
+	m_activePlayer = --m_activePlayer % m_players.size();
 
-size_t Game::HowManyListeners()
-{
-	return m_listeners.size();
-}
-
-void Game::SetGameState(EGameState state)
-{
-	m_state = state;
-}
-
-int Game::GetActivePlayerIndex() const
-{
-	return m_activePlayer;
-}
-
-void Game::SetComputerLevel(EComputerLevel level)
-{
-	InitLevel(level);
-}
-
-void Game::SetComputerLevel(ComputerLevelPtr computerLevel)
-{
-	m_computer = computerLevel;
-}
-
-void Game::SetPlayerConfig(PlayerConfig& config)
-{
-	InitPlayers(config.GetConfig());
+	NotifyAll(GetNotifyPlayerChanged(GetActivePlayer(), m_players[m_activePlayer]->IsComputer()));
 }
 
 void Game::LetComputerPlay()
@@ -282,6 +268,26 @@ void Game::LetComputerPlay()
 bool Game::IsComputerTurn()
 {
 	return m_players[m_activePlayer]->IsComputer();
+}
+
+size_t Game::HowManyListeners()
+{
+	return m_listeners.size();
+}
+
+void Game::SetGameState(EGameState state)
+{
+	m_state = state;
+}
+
+int Game::GetActivePlayerIndex() const
+{
+	return m_activePlayer;
+}
+
+void Game::SetPlayerConfig(PlayerConfig& config)
+{
+	InitPlayers(config.GetConfig());
 }
 
 void Game::RemoveListener(ListenerWeakPtr listener)
@@ -386,10 +392,10 @@ NotifyFunction Game::GetNotifyWindmill()
 		};
 }
 
-NotifyFunction Game::GetNotifyPlayerChanged(EPieceType playerType)
+NotifyFunction Game::GetNotifyPlayerChanged(EPieceType playerType, bool isComputer)
 {
 	return [&](IGameListener* listener) {
-		listener->OnPlayerChanged(playerType);
+		listener->OnPlayerChanged(playerType, isComputer);
 		};
 }
 
@@ -471,11 +477,14 @@ uint8_t Game::GetPlayerPiecesToPlace(EPieceType player) const
 	return m_board->GetPlayerPiecesToPlace(player);
 }
 
-double Game::GetRoundTime() const
+PieceIndexes Game::GetPossibleMovesFromNode(uint8_t nodeIndex) const
 {
-	//TO DO
+	return m_board->GetPossibleMovesFromNode(nodeIndex, m_players[m_activePlayer]->GetType());
+}
 
-	return 0;
+PieceIndexes Game::GetPossibleRemoves() const
+{
+	return m_board->GetPossibleRemoves(m_players[m_activePlayer]->GetType());
 }
 
 void Game::CheckBlocks()
@@ -485,7 +494,6 @@ void Game::CheckBlocks()
 		if (m_board->GetPlayerPiecesToPlace(m_players[index]->GetType()) == 0 &&
 			m_board->GetPossibleMoves(m_players[index]->GetType()).size() == 0)
 		{
-
 			m_moves.push_back(std::make_shared<RemovePlayer>(RemovePlayer(this, m_players[index])));
 
 			m_moves.back()->Execute();
@@ -501,6 +509,7 @@ void Game::CheckWiningPlayer()
 	{
 		m_winner = m_players[0]->GetType();
 		m_state = EGameState::Finished;
+
 		NotifyAll(GetNotifyGameStateChanged(m_state));
 
 		return;

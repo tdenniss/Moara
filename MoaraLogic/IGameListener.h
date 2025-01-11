@@ -17,6 +17,6 @@ public:
     virtual void OnRemovedPiece(uint8_t removedNodeIndex) = 0;
     virtual void OnGameStateChanged(EGameState newState) = 0;
     virtual void OnWindmillRule() = 0;
-    virtual void OnPlayerChanged(EPieceType playerType) = 0;
+    virtual void OnPlayerChanged(EPieceType playerType, bool isComputer) = 0;
     virtual void OnPlayerRemoved(EPieceType who) = 0;
 };

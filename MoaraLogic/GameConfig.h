@@ -1,4 +1,6 @@
 #pragma once
+#include "EComputerLevel.h"
+
 #include "IGameConfig.h"
 
 class GameConfig : public IGameConfig
@@ -8,19 +10,23 @@ public:
 		: m_boardConfig()
 		, m_playerConfig()
 		, m_numberOfPiecesToPlace(9)
+		, m_computerLevel(EComputerLevel::Easy)
 	{
 
 	}
-	GameConfig(const BoardConfig& boardConfig, const PlayerConfig& playerConfig, int numberOfPiecesToPlace)
+	GameConfig(const BoardConfig& boardConfig, const PlayerConfig& playerConfig, int numberOfPiecesToPlace, EComputerLevel computerLevel)
 		: m_boardConfig(boardConfig)
 		, m_playerConfig(playerConfig)
 		, m_numberOfPiecesToPlace(numberOfPiecesToPlace)
+		, m_computerLevel(computerLevel)
 	{
 
 	}
 
+	//IGameConfig
 	void SetPlayerConfig(PlayerConfig& config) override;
 	void SetBoardConfig(EBoardType type, EBoardSize size) override;
+	void SetComputerLevel(EComputerLevel level) override;
 	void SetNumberOfPlayers(int numberOfPlayers) override;
 	void SetPlayersConfig(ConfigurationsMatrix matrix, int indexOfMatrix) override;
 
@@ -32,6 +38,8 @@ public:
 	int GetNumberOfPiecesToPlace() const override;
 	int GetNumberOfPlayers() const override;
 
+	EComputerLevel GetComputerLevel() const override;
+
 	std::string GetBoardMatrixName(EBoardSize size, EBoardType type) override;
 
 	void SetPiecesToPlace(int number) override;
@@ -40,6 +48,7 @@ public:
 private:
 	BoardConfig m_boardConfig;
 	PlayerConfig m_playerConfig;
+	EComputerLevel m_computerLevel;
 	int m_numberOfPiecesToPlace;
 };
 
@@ -82,6 +91,11 @@ inline int GameConfig::GetNumberOfPlayers() const
 	return m_playerConfig.GetNumberOfPlayers();
 }
 
+inline EComputerLevel GameConfig::GetComputerLevel() const
+{
+	return m_computerLevel;
+}
+
 inline EBoardType GameConfig::GetBoardType() const
 {
 	return m_boardConfig.GetBoardType();
@@ -100,6 +114,11 @@ inline int GameConfig::GetNumberOfPiecesToPlace() const
 inline void GameConfig::SetPlayerConfig(PlayerConfig& config)
 {
 	m_playerConfig = config;
+}
+
+inline void GameConfig::SetComputerLevel(EComputerLevel level)
+{
+	m_computerLevel = level;
 }
 
 inline void GameConfig::SetBoardConfig(EBoardType type, EBoardSize size)

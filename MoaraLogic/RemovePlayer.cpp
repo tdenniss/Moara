@@ -51,7 +51,7 @@ void RemovePlayer::Execute()
 		}
 		else
 		{
-			m_game->NotifyAll(m_game->GetNotifyPlayerChanged(m_game->GetActivePlayer()));
+			m_game->NotifyAll(m_game->GetNotifyPlayerChanged(m_game->GetActivePlayer(), m_game->m_players[m_game->m_activePlayer]->IsComputer()));
 		}
 	}
 }

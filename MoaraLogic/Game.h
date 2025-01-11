@@ -47,7 +47,8 @@ public:
 	uint8_t	GetPlayerPiecesOnBoard(EPieceType player)	const override final;
 	uint8_t	GetPlayerPiecesToPlace(EPieceType player)	const override final;
 
-	double GetRoundTime()							const override final;
+	PieceIndexes GetPossibleMovesFromNode(uint8_t nodeIndex)	const override final;
+	PieceIndexes GetPossibleRemoves()					const override final;
 
 	void SetBoard(IBoardPtr board);
 
@@ -98,7 +99,7 @@ private:
 	NotifyFunction GetNotifyRemovedPiece(uint8_t index);
 	NotifyFunction GetNotifyMovedPiece(uint8_t fromIndex, uint8_t toIndex, EPieceType movedPiceType);
 	NotifyFunction GetNotifyWindmill();
-	NotifyFunction GetNotifyPlayerChanged(EPieceType playerType);
+	NotifyFunction GetNotifyPlayerChanged(EPieceType playerType, bool isComputer);
 	NotifyFunction GetNotifyPlayerRemoved(EPieceType who);
 
 private:
