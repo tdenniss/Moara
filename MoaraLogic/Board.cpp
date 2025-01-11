@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "Board.h"
 #include "FileManager.h"
 
@@ -11,22 +12,19 @@ Board::Board()
 	: m_boardState{ EBoardState::None }
 	, m_nodes{}
 	, m_playersPieces{}
-{
-}
+{}
 
 Board::Board(const PieceTypeList& players, const BoardConfigMatrix& boardMatrix, int piecesToPlace)
 	: m_boardState{ EBoardState::None }
 	, m_nodes{}
 	, m_playersPieces{}
-{
-}
+{}
 
 Board::Board(const PieceTypeList& players, std::ifstream& file)
 	: m_boardState{ EBoardState::None }
 	, m_nodes{}
 	, m_playersPieces{}
-{
-}
+{}
 
 EPieceType Board::GetNodeType(uint8_t nodeIndex) const
 {
@@ -48,6 +46,17 @@ PieceTypeList Board::GetAllNodesType() const
 NodeList Board::GetAllNodes() const
 {
 	return m_nodes;
+}
+
+PieceIndexes Board::GetPossiblePlaces() const
+{
+	PieceIndexes possibilities;
+
+	for (const auto& node : m_nodes)
+		if (node->GetPieceType() == EPieceType::None)
+			possibilities.push_back(node->GetIndex());
+
+	return possibilities;
 }
 
 uint8_t Board::GetNodesCount() const
@@ -251,6 +260,38 @@ uint8_t Board::GetPlayerPiecesToPlace(EPlayerType player) const
 	return m_playersPieces.at(player).piecesToPlace;
 }
 
+PieceIndexes Board::GetPossibleMovesFromNode(uint8_t nodeIndex, EPlayerType player) const
+{
+	auto node = GetNodeFromIndex(nodeIndex);
+
+	if (node->GetPieceType() == EPieceType::None)
+	{
+		return {};
+	}
+
+	if (node->GetPieceType() != player)
+	{
+		return {};
+	}
+
+	PieceIndexes possibilities;
+
+	auto isEmpty = [](const auto& n) { return n != nullptr && n->GetPieceType() == EPieceType::None; };
+
+	if (GetPlayerPiecesOnTable(node->GetPieceType()) > 3)
+	{
+		for (const auto& neighbour : node->GetNeighbours() | std::views::filter(isEmpty))
+			possibilities.push_back(neighbour->GetIndex());
+	}
+	else
+	{
+		for (const auto& boardNode : m_nodes | std::views::filter(isEmpty))
+			possibilities.push_back(boardNode->GetIndex());
+	}
+
+	return possibilities;
+}
+
 PieceIndexes Board::GetPossibleMoves(EPlayerType player) const
 {
 	PieceIndexes possibilities;
@@ -271,6 +312,25 @@ PieceIndexes Board::GetPossibleMoves(EPlayerType player) const
 		for (const auto& boardNode : m_nodes | std::views::filter(isEmpty))
 			possibilities.push_back(boardNode->GetIndex());
 	}
+
+	return possibilities;
+}
+
+PieceIndexes Board::GetPossibleRemoves(EPlayerType player) const
+{
+	PieceIndexes possibilities;
+
+	for (const auto& playerPieces : m_playersPieces
+		| std::views::filter([player](const auto& pp) { return pp.first != player; })
+		| std::views::transform([this](const auto& pp) { return GetSamePieceTypeNodeIndexes(pp.first); })) {
+		possibilities.insert(possibilities.end(), playerPieces.begin(), playerPieces.end());
+	}
+
+	auto isNotRemovable = [this](const auto& nodeIndex) {
+		return !CanRemovePiece(nodeIndex);
+		};
+
+	possibilities.erase(std::remove_if(possibilities.begin(), possibilities.end(), isNotRemovable), possibilities.end());
 
 	return possibilities;
 }

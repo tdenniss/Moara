@@ -13,6 +13,7 @@ public:
 	Board(const PieceTypeList& players, const BoardConfigMatrix& boardMatrix, int piecesToPlace);
 	Board(const PieceTypeList& players, std::ifstream& file);
 
+	//IBoard
 	EPieceType GetNodeType(uint8_t nodeIndex) const override final;
 	PieceTypeList GetAllNodesType() const override final;
 	uint8_t GetNodesCount() const override final;
@@ -27,27 +28,30 @@ public:
 	void MovePiece(uint8_t firstNodeIndex, uint8_t secondNodeIndex, EPlayerType player) override final;
 	void RemovePiece(uint8_t nodeIndex, EPlayerType player) override final;
 
+	//IBoardComputer
 	NodeList GetAllNodes() const override final;
+	PieceIndexes GetPossiblePlaces() const override final;
+	PieceIndexes GetPossibleMovesFromNode(uint8_t nodeIndex, EPlayerType player) const override final;
 	PieceIndexes GetPossibleMoves(EPlayerType player) const override final;
+	PieceIndexes GetPossibleRemoves(EPlayerType player)	const override final;
 
 	void UndoAddPiece(uint8_t nodeIndex) override final;
 	void UndoMovePiece(uint8_t firstNodeIndex, uint8_t secondNodeIndex) override final;
 	void UndoRemovePiece(uint8_t nodeIndex, EPlayerType player) override final;
 	void RemovePlayerPieces(EPlayerType player) override final;
 
+	//public for tests
 	void IsMoveValid(uint8_t firstNodeIndex, uint8_t secondNodeIndex, EPlayerType movingPlayer) const override final;
 
 	virtual void SetPlayerPiecesOnTable(EPlayerType player, int piecesOnTable) override final;
 	virtual void SetPlayerPiecesToPlace(EPlayerType player, int piecesToPlace) override final;
 
 	virtual ~Board() override;
-
 protected:
 	virtual bool CanRemovePiece(uint8_t nodeIndex) const final;
 	virtual INode* GetNodeFromIndex(uint8_t index) const final;
 	virtual uint8_t GetIndexFromNode(INode* node) const final;
 	virtual uint8_t CountSamePiece(ENeighboursPosition direction, INode* node, EPieceType windmillPieceType = EPieceType::None, uint8_t indexToIgnore = 255, bool windmill = false) const final;
-
 protected:
 	NodeList m_nodes;
 	EBoardState m_boardState;

@@ -14,6 +14,7 @@ public:
 	void LoadBoard(const PieceTypeList& players, std::ifstream& file) override final;
 	void SaveBoard(std::ofstream& file) const override final;
 
+	bool CanBeFullLine(uint8_t nodeIndex, EPieceType nodePieceType = EPieceType::None, uint8_t indexToIgnore = 255) const override final;
 	bool IsFullLine(uint8_t nodeIndex, EPieceType currentNodeType = EPieceType::None, uint8_t indexToIgnore = 255, bool windmill = false) const override final;
 
 	bool IsWindmillRule(uint8_t nodeIndex, EPieceType currentNodeType = EPieceType::None) const override final;

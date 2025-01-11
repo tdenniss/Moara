@@ -31,6 +31,60 @@ DiagonalsBoard::DiagonalsBoard(const PieceTypeList& players, std::ifstream& file
 	LoadBoard(players, file);
 }
 
+bool DiagonalsBoard::CanBeFullLine(uint8_t nodeIndex, EPieceType nodePieceType, uint8_t indexToIgnore) const
+{
+	auto modiffiedNode = m_nodes[nodeIndex]->Clone();
+	if (nodePieceType != EPieceType::None)
+		modiffiedNode->SetPiece(nodePieceType);
+
+	uint8_t countCurrentNode = 1;
+
+	if (modiffiedNode->GetPieceType() == EPieceType::None)
+	{
+		delete modiffiedNode;
+		return false;
+	}
+
+	uint8_t count1 = CountSamePiece(ENeighboursPosition::Top, modiffiedNode, EPieceType::None, indexToIgnore);
+	uint8_t count2 = CountSamePiece(ENeighboursPosition::Bottom, modiffiedNode, EPieceType::None, indexToIgnore);
+
+	if (count1 + count2 + countCurrentNode >= FULL_LINE)
+	{
+		delete modiffiedNode;
+		return true;
+	}
+
+	count1 = CountSamePiece(ENeighboursPosition::Left, modiffiedNode, EPieceType::None, indexToIgnore);
+	count2 = CountSamePiece(ENeighboursPosition::Right, modiffiedNode, EPieceType::None, indexToIgnore);
+
+	if (count1 + count2 + countCurrentNode >= FULL_LINE)
+	{
+		delete modiffiedNode;
+		return true;
+	}
+
+	count1 = CountSamePiece(ENeighboursPosition::Top_Right, modiffiedNode, EPieceType::None, indexToIgnore);
+	count2 = CountSamePiece(ENeighboursPosition::Bottom_Left, modiffiedNode, EPieceType::None, indexToIgnore);
+
+	if (count1 + count2 + countCurrentNode >= FULL_LINE)
+	{
+		delete modiffiedNode;
+		return true;
+	}
+
+	count1 = CountSamePiece(ENeighboursPosition::Bottom_Right, modiffiedNode, EPieceType::None, indexToIgnore);
+	count2 = CountSamePiece(ENeighboursPosition::Top_Left, modiffiedNode, EPieceType::None, indexToIgnore);
+
+	if (count1 + count2 + countCurrentNode >= FULL_LINE)
+	{
+		delete modiffiedNode;
+		return true;
+	}
+
+	delete modiffiedNode;
+	return false;
+}
+
 bool DiagonalsBoard::IsFullLine(uint8_t nodeIndex, EPieceType currentNodeType, uint8_t indexToIgnore, bool windmill) const
 {
 	auto currentNode = m_nodes[nodeIndex];

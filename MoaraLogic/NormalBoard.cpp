@@ -30,6 +30,42 @@ NormalBoard::NormalBoard(const PieceTypeList& players, std::ifstream& file)
 	LoadBoard(players, file);
 }
 
+bool NormalBoard::CanBeFullLine(uint8_t nodeIndex, EPieceType nodePieceType, uint8_t indexToIgnore) const
+{
+	auto modiffiedNode = m_nodes[nodeIndex]->Clone();
+	if (nodePieceType != EPieceType::None)
+		modiffiedNode->SetPiece(nodePieceType);
+
+	uint8_t countCurrentNode = 1;
+
+	if (modiffiedNode->GetPieceType() == EPieceType::None)
+	{
+		delete modiffiedNode;
+		return false;
+	}
+
+	uint8_t countUp = CountSamePiece(ENeighboursPosition::Top, modiffiedNode, EPieceType::None, indexToIgnore);
+	uint8_t countDown = CountSamePiece(ENeighboursPosition::Bottom, modiffiedNode, EPieceType::None, indexToIgnore);
+
+	if (countDown + countUp + countCurrentNode >= FULL_LINE)
+	{
+		delete modiffiedNode;
+		return true;
+	}
+
+	uint8_t countLeft = CountSamePiece(ENeighboursPosition::Left, modiffiedNode, EPieceType::None, indexToIgnore);
+	uint8_t countRight = CountSamePiece(ENeighboursPosition::Right, modiffiedNode, EPieceType::None, indexToIgnore);
+
+	if (countLeft + countRight + countCurrentNode >= FULL_LINE)
+	{
+		delete modiffiedNode;
+		return true;
+	}
+
+	delete modiffiedNode;
+	return false;
+}
+
 bool NormalBoard::IsFullLine(uint8_t nodeIndex, EPieceType currentNodeType, uint8_t indexToIgnore, bool windmill) const
 {
 	auto currentNode = m_nodes[nodeIndex];

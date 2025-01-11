@@ -6,6 +6,7 @@
 #include "IPlayer.h"
 #include "INode.h"
 #include "IBoardLoader.h"
+#include "IBoardComputer.h"
 
 #include "NormalNode.h"
 #include "PiecesInformation.h"
@@ -15,19 +16,16 @@
 
 using PlayersPieces = std::unordered_map<EPieceType, PiecesInformation>;
 using PieceTypeList = std::vector<EPieceType>;
-using PieceIndexes = std::vector<uint8_t>;
 using IBoardPtr = std::shared_ptr<class IBoard>;
-using NodeList = std::vector<class INode*>;
+using BoardComputerPtr = std::shared_ptr<IBoardComputer>;
 
-class IBoard : public IBoardLoader
+class IBoard : public IBoardLoader, public IBoardComputer
 {
 public:
 	virtual EPieceType GetNodeType(uint8_t nodeIndex) const = 0;
 	virtual PieceTypeList GetAllNodesType() const = 0;
-	virtual NodeList GetAllNodes() const = 0;
 	virtual uint8_t GetNodesCount() const = 0;
 	virtual PieceIndexes GetSamePieceTypeNodeIndexes(EPieceType type) const = 0;
-	virtual PieceIndexes GetPossibleMoves(EPlayerType player) const = 0;
 
 	virtual EBoardState GetBoardState() const = 0;
 
@@ -46,7 +44,6 @@ public:
 
 	virtual void IsMoveValid(uint8_t firstNodeIndex, uint8_t secondNodeIndex, EPlayerType movingPlayer) const = 0;
 	virtual bool IsWindmillRule(uint8_t nodeIndex, EPieceType currentNodeType = EPieceType::None) const = 0;
-	virtual bool IsFullLine(uint8_t nodeIndex, EPieceType currentNodeType = EPieceType::None, uint8_t indexToIgnore = 255, bool windmill = false) const = 0;
 
 	virtual void SetPlayerPiecesOnTable(EPlayerType player, int piecesOnTable) = 0;
 	virtual void SetPlayerPiecesToPlace(EPlayerType player, int piecesToPlace) = 0;
