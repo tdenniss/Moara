@@ -25,6 +25,9 @@
     <Filter Include="Header Files\Player">
       <UniqueIdentifier>{fbbacc9c-c26b-4552-9594-3cb57a0c1ba4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Logic Management">
+      <UniqueIdentifier>{b5d9ac6e-8651-4715-8c23-861f90dbafa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -62,6 +65,12 @@
     </ClInclude>
     <ClInclude Include="GameConfig.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="IClientSDKListener.h">
+      <Filter>Header Files\Logic Management</Filter>
+    </ClInclude>
+    <ClInclude Include="IClientSDK.h">
+      <Filter>Header Files\Logic Management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

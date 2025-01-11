@@ -156,6 +156,8 @@
     <ClInclude Include="EPieceType.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameConfig.h" />
+    <ClInclude Include="IClientSDK.h" />
+    <ClInclude Include="IClientSDKListener.h" />
     <ClInclude Include="IGameConfig.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerConfig.h" />
