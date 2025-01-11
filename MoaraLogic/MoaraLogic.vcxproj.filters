@@ -61,6 +61,12 @@
     <Filter Include="Source Files\ComputerPlayer">
       <UniqueIdentifier>{e9dfee3b-8daf-4597-977d-be3ca1385afe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{72bf11be-b5cf-4f4c-ab83-71cb0c3a2cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Timer">
+      <UniqueIdentifier>{8eefb4b8-97f8-414f-bb0e-cfbdda149993}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -192,6 +198,15 @@
     <ClInclude Include="EComputerLevel.h">
       <Filter>Header Files\API\Enums</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="IClock.h">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Clock.h">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MoaraLogic.cpp">
@@ -253,6 +268,12 @@
     </ClCompile>
     <ClCompile Include="HardComputerLevel.cpp">
       <Filter>Source Files\ComputerPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Timer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

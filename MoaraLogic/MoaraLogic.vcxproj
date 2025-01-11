@@ -167,6 +167,7 @@
     <ClInclude Include="BoardConfig.h" />
     <ClInclude Include="BoardConfigurations.h" />
     <ClInclude Include="BoardFactory.h" />
+    <ClInclude Include="Clock.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DiagonalsBoard.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="IBoard.h" />
     <ClInclude Include="IBoardComputer.h" />
     <ClInclude Include="IBoardLoader.h" />
+    <ClInclude Include="IClock.h" />
     <ClInclude Include="IComputerLevel.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IGameConfig.h" />
@@ -206,10 +208,12 @@
     <ClInclude Include="PlayerConfig.h" />
     <ClInclude Include="Remove.h" />
     <ClInclude Include="RemovePlayer.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardFactory.cpp" />
+    <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="DiagonalsBoard.cpp" />
     <ClCompile Include="DiagonalsNode.cpp" />
@@ -233,6 +237,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Remove.cpp" />
     <ClCompile Include="RemovePlayer.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
