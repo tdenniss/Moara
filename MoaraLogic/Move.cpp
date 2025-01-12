@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "Move.h"
 
 #include "Game.h"
@@ -7,8 +8,7 @@ Move::Move(Game* game, int from, int to)
 	: Command(game)
 	, m_from(from)
 	, m_to(to)
-{
-}
+{}
 
 void Move::Execute()
 {
@@ -22,7 +22,7 @@ void Move::Execute()
 	m_game->NotifyAll(m_game->GetNotifyMovedPiece(m_from, m_to, m_game->m_players[m_game->m_activePlayer]->GetType()));
 
 	m_game->CheckWiningPlayer();
-	if (m_game->m_winner != EPlayerType::None)
+	if (m_game->m_winner != EPlayerType::None)// stop if we have a winner
 		return;
 
 	if (m_board->GetBoardState() == EBoardState::Full_line)
@@ -30,6 +30,9 @@ void Move::Execute()
 		m_game->m_state = EGameState::Removing;
 		m_game->NotifyAll(m_game->GetNotifyGameStateChanged(m_game->m_state));
 
+		if (m_game->m_players[m_game->m_activePlayer]->IsComputer() == false)
+			return;
+		m_game->LetComputerPlay();
 		return;
 	}
 	else if (m_board->GetBoardState() == EBoardState::Windmill)
@@ -37,6 +40,9 @@ void Move::Execute()
 		m_game->m_state = EGameState::Removing;
 		m_game->NotifyAll(m_game->GetNotifyWindmill());
 
+		if (m_game->m_players[m_game->m_activePlayer]->IsComputer() == false)
+			return;
+		m_game->LetComputerPlay();
 		return;
 	}
 

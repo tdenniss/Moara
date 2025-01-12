@@ -1,20 +1,25 @@
 #include "pch.h"
+
 #include "RemovePlayer.h"
+
 #include "Game.h"
 #include "Player.h"
 
-RemovePlayer::RemovePlayer(Game* game, EPlayerType player, bool isComputer, Indexes indexes)
+RemovePlayer::RemovePlayer(Game* game, EPlayerType player, bool isComputer, Miliseconds remainingTime, Indexes indexes)
 	: Command(game)
 	, m_player(player)
+	, m_isComputer(isComputer)
 	, m_lastState(game->m_state)
+	, m_remainingTime(remainingTime)
 	, m_piecesIndexes(indexes)
-{
-}
+{}
 
 RemovePlayer::RemovePlayer(Game* game, PlayerPtr player)
 	: Command(game)
 	, m_player(player->GetType())
+	, m_isComputer(player->IsComputer())
 	, m_lastState(game->m_state)
+	, m_remainingTime(player->GetTimerRemainingDuration())
 	, m_piecesIndexes()
 {
 	for (const auto& node : m_board->GetAllNodes())
@@ -47,10 +52,16 @@ void RemovePlayer::Execute()
 			m_game->m_winner = m_game->m_players[0]->GetType();
 			m_game->m_state = EGameState::Finished;
 
+			m_game->m_moveTimer->Stop();
+
 			m_game->NotifyAll(m_game->GetNotifyGameStateChanged(m_game->m_state));
 		}
 		else
 		{
+			m_game->m_players[m_game->m_activePlayer]->StartTimer();
+
+			m_game->ResetMoveTimer();
+
 			m_game->NotifyAll(m_game->GetNotifyPlayerChanged(m_game->GetActivePlayer(), m_game->m_players[m_game->m_activePlayer]->IsComputer()));
 		}
 	}
@@ -74,13 +85,40 @@ void RemovePlayer::Undo()
 	{
 		m_board->AddPiece(index, m_player);
 	}
+
+	if (player->IsComputer())
+	{
+		player->SetTimerDuration(Game::RandomMiliseconds(Miliseconds(1000), Miliseconds(5000)));//random between 1-5sec
+
+		player->SetTimerCallback([&]()
+			{
+				m_game->LetComputerPlay();
+
+				player->SetTimerDuration(Game::RandomMiliseconds(Miliseconds(1000), Miliseconds(5000)));//random between 1-5sec
+			});
+	}
+	else
+	{
+		player->SetTimerDuration(m_remainingTime);
+
+		player->SetTimerCallback([this, player]()
+			{
+				m_game->m_moves.push_back(std::make_shared<RemovePlayer>(RemovePlayer(m_game, player)));
+
+				m_game->m_moves.back()->Execute();
+			});
+	}
+
+	m_game->ResetMoveTimer();
 }
 
 void RemovePlayer::Print(std::ostream& os) const
 {
 	os << static_cast<int>(CommandType::RemovePlayer) << ' ';
 	os << static_cast<int>(m_player) << ' ';
+	os << static_cast<int>(m_isComputer) << ' ';
 	os << static_cast<int>(m_lastState) << ' ';
+	os << m_remainingTime.count() << ' ';
 	for (const auto& index : m_piecesIndexes)
 		os << index << ' ';
 	os << '\n';

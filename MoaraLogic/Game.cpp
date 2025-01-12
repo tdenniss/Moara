@@ -33,6 +33,7 @@ Game::Game()
 	: m_activePlayer{ 0 }
 	, m_state{ EGameState::Placing }
 	, m_winner{ EPlayerType::None }
+	, m_moveTimer{ std::make_shared<Timer>(Miliseconds(100000), true) }
 	, m_players{}
 {}
 
@@ -43,6 +44,36 @@ void Game::Initialize(GameConfigPtr& gameConfig)
 	InitPlayers(gameConfig->GetPlayerConfig());
 
 	InitBoard(gameConfig->GetBoardConfigMatrix(), gameConfig->GetBoardType(), gameConfig->GetNumberOfPiecesToPlace());
+
+	for (const auto& player : m_players)
+	{
+		if (player->IsComputer())
+		{
+			player->SetTimerDuration(RandomMiliseconds(Miliseconds(1000), Miliseconds(5000)));//random between 1-5sec
+
+			player->SetTimerCallback([this, player]()
+				{
+					LetComputerPlay();
+
+					player->SetTimerDuration(RandomMiliseconds(Miliseconds(1000), Miliseconds(5000)));//random between 1-5sec
+				});
+		}
+		else
+			player->SetTimerCallback([this, player]()
+				{
+					m_moves.push_back(std::make_shared<RemovePlayer>(RemovePlayer(this, player)));
+
+					m_moves.back()->Execute();
+				});
+	}
+
+	m_players[0]->StartTimer();
+	m_moveTimer->SetExpiredCallback([this]()
+		{
+			m_moves.push_back(std::make_shared<RemovePlayer>(RemovePlayer(this, m_players[0])));
+
+			m_moves.back()->Execute();
+		});
 }
 
 void Game::PlacePiece(uint8_t nodeIndex)
@@ -219,14 +250,32 @@ NodeList Game::GetAllNodes() const
 
 void Game::NextPlayer()
 {
+	m_players[m_activePlayer]->PauseTimer();
+
+	if (!m_players[m_activePlayer]->IsComputer())
+		m_players[m_activePlayer]->AddTimerDuration(Miliseconds(5000));//TODO: configurare timpi
+
 	m_activePlayer = ++m_activePlayer % m_players.size();
+
+	m_players[m_activePlayer]->StartTimer();
+
+	ResetMoveTimer();
 
 	NotifyAll(GetNotifyPlayerChanged(GetActivePlayer(), m_players[m_activePlayer]->IsComputer()));
 }
 
 void Game::PrevPlayer()
 {
+	m_players[m_activePlayer]->PauseTimer();
+
+	if (!m_players[m_activePlayer]->IsComputer())
+		m_players[m_activePlayer]->SubtractTimerDuration(m_moveTimer->GetElapsedTime());
+
 	m_activePlayer = --m_activePlayer % m_players.size();
+
+	m_players[m_activePlayer]->StartTimer();
+
+	ResetMoveTimer();
 
 	NotifyAll(GetNotifyPlayerChanged(GetActivePlayer(), m_players[m_activePlayer]->IsComputer()));
 }
@@ -278,6 +327,21 @@ size_t Game::HowManyListeners()
 void Game::SetGameState(EGameState state)
 {
 	m_state = state;
+}
+
+void Game::SetTimer(TimerPtr timer)
+{
+	m_moveTimer = timer;
+}
+
+void Game::SetPlayersTimer(TimerPtr timer)
+{
+	for (auto& player : m_players)
+	{
+		auto concretePlayer = std::dynamic_pointer_cast<Player>(player);
+
+		concretePlayer->SetTimer(timer);
+	}
 }
 
 int Game::GetActivePlayerIndex() const
@@ -406,6 +470,26 @@ NotifyFunction Game::GetNotifyPlayerRemoved(EPieceType who)
 		};
 }
 
+void Game::ResetMoveTimer()
+{
+	m_moveTimer->Reset();
+	m_moveTimer->SetExpiredCallback([this]()
+		{
+			m_moves.push_back(std::make_shared<RemovePlayer>(RemovePlayer(this, m_players[m_activePlayer])));
+
+			m_moves.back()->Execute();
+		});
+}
+
+Miliseconds Game::RandomMiliseconds(Miliseconds from, Miliseconds to)
+{
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution<int> dist(static_cast<int>(from.count()), static_cast<int>(to.count()));
+
+	return(Miliseconds(dist(mt)));
+}
+
 void Game::InitLevel(EComputerLevel level)
 {
 	switch (level)
@@ -485,6 +569,17 @@ PieceIndexes Game::GetPossibleMovesFromNode(uint8_t nodeIndex) const
 PieceIndexes Game::GetPossibleRemoves() const
 {
 	return m_board->GetPossibleRemoves(m_players[m_activePlayer]->GetType());
+}
+
+double Game::GetRoundTime() const
+{
+	if (m_players[m_activePlayer]->IsComputer())
+		return std::chrono::duration_cast<std::chrono::duration<double>>(m_moveTimer->GetRemainingDuration()).count();
+
+	auto roundTime = std::chrono::duration_cast<std::chrono::duration<double>>(m_moveTimer->GetRemainingDuration()).count();
+	auto playerTime = std::chrono::duration_cast<std::chrono::duration<double>>(m_players[m_activePlayer]->GetTimerRemainingDuration()).count();
+
+	return roundTime < playerTime ? roundTime : playerTime;
 }
 
 void Game::CheckBlocks()

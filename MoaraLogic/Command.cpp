@@ -21,7 +21,7 @@ CommandPtr Command::Create(Game* game, std::vector<int> values)
 		return std::make_shared<Move>(game, values[1], values[2]);
 	case CommandType::RemovePlayer:
 		return std::make_shared<RemovePlayer>(game, static_cast<EPlayerType>(values[1]),
-			values[2], Indexes(values.begin() + 4, values.end()));
+			values[2], Miliseconds(values[3]), Indexes(values.begin() + 4, values.end()));
 	default:
 		return {};
 	}

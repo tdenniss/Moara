@@ -50,6 +50,8 @@ public:
 	PieceIndexes GetPossibleMovesFromNode(uint8_t nodeIndex)	const override final;
 	PieceIndexes GetPossibleRemoves()					const override final;
 
+	double GetRoundTime()							const override final;
+
 	void SetBoard(IBoardPtr board);
 
 	void CheckWiningPlayer();
@@ -78,6 +80,9 @@ public:
 	size_t HowManyListeners();
 	void SetGameState(EGameState state);
 
+	void SetTimer(TimerPtr timer);
+	void SetPlayersTimer(TimerPtr timer);
+
 	int GetActivePlayerIndex() const override;
 
 private:
@@ -94,6 +99,8 @@ private:
 	void UndoMovePiece(uint8_t fromIndex, uint8_t toIndex);
 	void UndoRemovePiece(uint8_t nodeIndex);
 
+	void ResetMoveTimer();
+
 	NotifyFunction GetNotifyAddedPiece(uint8_t index, EPieceType type);
 	NotifyFunction GetNotifyGameStateChanged(EGameState newState);
 	NotifyFunction GetNotifyRemovedPiece(uint8_t index);
@@ -101,6 +108,8 @@ private:
 	NotifyFunction GetNotifyWindmill();
 	NotifyFunction GetNotifyPlayerChanged(EPieceType playerType, bool isComputer);
 	NotifyFunction GetNotifyPlayerRemoved(EPieceType who);
+
+	static Miliseconds RandomMiliseconds(Miliseconds from, Miliseconds to);
 
 private:
 	Listeners		m_listeners;
@@ -111,6 +120,7 @@ private:
 	EPlayerType		m_winner;
 	ComputerLevelPtr m_computer;
 
+	TimerPtr		m_moveTimer;
 	int				m_activePlayer;
 
 	friend class Command;

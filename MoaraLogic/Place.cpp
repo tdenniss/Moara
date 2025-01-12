@@ -1,12 +1,13 @@
 #include "pch.h"
+
 #include "Place.h"
+
 #include "Game.h"
 
 Place::Place(Game* game, int index)
 	: Command(game)
 	, m_index(index)
-{
-}
+{}
 
 void Place::Execute()
 {
@@ -28,8 +29,13 @@ void Place::Execute()
 	if (m_board->GetBoardState() == EBoardState::Full_line)
 	{
 		m_game->m_state = EGameState::Removing;
+
 		m_game->NotifyAll(m_game->GetNotifyGameStateChanged(m_game->m_state));
 
+		if (m_game->m_players[m_game->m_activePlayer]->IsComputer() == false)
+			return;
+
+		m_game->LetComputerPlay();
 		return;
 	}
 

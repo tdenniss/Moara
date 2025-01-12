@@ -41,6 +41,7 @@ public:
     virtual uint8_t GetPlayerPiecesToPlace(EPieceType player) const = 0;
     virtual PieceIndexes GetPossibleMovesFromNode(uint8_t nodeIndex) const = 0;
     virtual PieceIndexes GetPossibleRemoves() const = 0;
+    virtual double GetRoundTime() const = 0;
     virtual void CheckWiningPlayer() = 0;
     virtual void AddListener(ListenerSharedPtr listener) = 0;
     virtual void RemoveListener(ListenerWeakPtr listener) = 0;

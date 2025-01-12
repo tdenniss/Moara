@@ -1,12 +1,13 @@
 #include "pch.h"
+
 #include "Remove.h"
+
 #include "Game.h"
 
 Remove::Remove(Game* game, int index)
 	: Command(game)
 	, m_index(index)
-{
-}
+{}
 
 void Remove::Execute()
 {
@@ -20,7 +21,7 @@ void Remove::Execute()
 	m_game->NotifyAll(m_game->GetNotifyRemovedPiece(m_index));
 
 	m_game->CheckWiningPlayer();
-	if (m_game->m_winner != EPlayerType::None)
+	if (m_game->m_winner != EPlayerType::None)// stop if we have a winner
 		return;
 
 	m_game->m_state = EGameState::Moving;
