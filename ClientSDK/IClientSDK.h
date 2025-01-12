@@ -20,6 +20,8 @@ public:
 	virtual void CreateLobby() = 0;
 	virtual void JoinLobby(int id) = 0;
 
+	virtual void ChangeConfig(int boardSize, int boardType, EComputerLevel level) = 0;
+
 	virtual void StartGame(GameConfigPtr config) = 0;
 
 	virtual void SetupBoard() = 0;
@@ -32,5 +34,6 @@ public:
 	virtual void GetTimer() = 0;
 	virtual void GetPossibleMoves(uint8_t index) = 0;
 	virtual void GetPossibleRemoves() = 0;
+	virtual void GetWinnigPlayer() = 0;
 	virtual void GetActivePlayer() = 0;
 };

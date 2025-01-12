@@ -1,5 +1,6 @@
 #pragma once
 #include "EPieceType.h"
+#include "EComputerLevel.h"
 #include "EBoardSize.h"
 #include "EBoardType.h"
 #include "EGameState.h"
@@ -57,6 +58,46 @@ public:
 		else
 		{
 			throw std::invalid_argument("Invalid piece type string");
+		}
+	}
+};
+
+class EComputerLevelStringMaker
+{
+public:
+	static std::string GetStringFromEnum(EComputerLevel level)
+	{
+		switch (level)
+		{
+		case EComputerLevel::None:
+			return "None";
+		case EComputerLevel::Easy:
+			return "Easy";
+		case EComputerLevel::Medium:
+			return "Medium";
+		case EComputerLevel::Hard:
+			return "Hard";
+		default:
+			return "Unknown level";
+		}
+	}
+
+	static EComputerLevel GetEnumFromString(const std::string& levelStr)
+	{
+		if (levelStr == "None") {
+			return EComputerLevel::None;
+		}
+		else if (levelStr == "Easy") {
+			return EComputerLevel::Easy;
+		}
+		else if (levelStr == "Medium") {
+			return EComputerLevel::Medium;
+		}
+		else if (levelStr == "Hard") {
+			return EComputerLevel::Hard;
+		}
+		else {
+			throw std::invalid_argument("Invalid computer level string");
 		}
 	}
 };
