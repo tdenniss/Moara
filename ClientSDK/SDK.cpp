@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "SDK.h"
 #include "SFMLServerHandler.h"
 #include "JsonMessageHandler.h"

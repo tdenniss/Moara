@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "SFMLServerHandler.h"
 
 using Config = std::vector<std::pair<int, bool>>;
 using ConfigurationsMatrix = std::vector<Config>;
