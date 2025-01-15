@@ -10,6 +10,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientSDK", "ClientSDK\ClientSDK.vcxproj", "{0BDEBB70-BBC0-41D4-AEA2-4C444AC9D0CE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MoaraServer", "MoaraServer\MoaraServer.vcxproj", "{FE8E74CF-4235-4AFC-9938-4E7DD66CAF20}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B219762-48EC-4E7C-84DE-9C515178BB33} = {4B219762-48EC-4E7C-84DE-9C515178BB33}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestsQT", "TestsQT\TestsQT.vcxproj", "{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +56,14 @@ Global
 		{FE8E74CF-4235-4AFC-9938-4E7DD66CAF20}.Release|x64.Build.0 = Release|x64
 		{FE8E74CF-4235-4AFC-9938-4E7DD66CAF20}.Release|x86.ActiveCfg = Release|Win32
 		{FE8E74CF-4235-4AFC-9938-4E7DD66CAF20}.Release|x86.Build.0 = Release|Win32
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Debug|x64.ActiveCfg = Debug|x64
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Debug|x64.Build.0 = Debug|x64
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Debug|x86.ActiveCfg = Debug|x64
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Debug|x86.Build.0 = Debug|x64
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Release|x64.ActiveCfg = Release|x64
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Release|x64.Build.0 = Release|x64
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Release|x86.ActiveCfg = Release|x64
+		{E6F556A4-D19D-4B9C-A7C2-8D74D0D36F99}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
