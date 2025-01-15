@@ -9,7 +9,10 @@ class MoaraClient : public QMainWindow
 
 public:
     MoaraClient(QWidget *parent = nullptr);
-    ~MoaraClient();
+    ~MoaraClient() = default;
+
+private:
+	void SetupConnections();
 
 private:
     Ui::MoaraClientClass ui;

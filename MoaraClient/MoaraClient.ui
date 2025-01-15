@@ -17,6 +17,9 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
       <widget class="MenuScene" name="menuScene">
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="1">
@@ -929,7 +932,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="gameScene">
+      <widget class="GameScene" name="gameScene">
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -990,6 +993,12 @@
    <class>MenuScene</class>
    <extends>QWidget</extends>
    <header>MenuScene.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GameScene</class>
+   <extends>QWidget</extends>
+   <header>GameScene.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -50,6 +50,9 @@ public: // IClientSDKListener
 	void OnPossibleRemoves(PiecesIndexes indexes) override {}
 	void OnServerDisconnect() override;
 
+signals:
+	void SceneChange(IClientSDKPtr sdk, EBoardType type, EBoardSize size, NodesInfo nodeInfoList);
+
 public slots:
 	void OnStartGame();
 	void OnTypeSelected();

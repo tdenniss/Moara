@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="NodeButton.cpp" />
     <ClCompile Include="UiBoard.cpp" />
     <QtRcc Include="MoaraClient.qrc" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />
+    <QtMoc Include="GameScene.h" />
     <ClInclude Include="ImagesCache.h" />
     <ClInclude Include="IUiBoard.h" />
     <ClInclude Include="Stylesheets.h" />
@@ -148,6 +150,16 @@
     <ProjectReference Include="..\ClientSDK\ClientSDK.vcxproj">
       <Project>{0bdebb70-bbc0-41d4-aea2-4c444ac9d0ce}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="diagonals_big_connections.txt" />
+    <Text Include="diagonals_big_positions.txt" />
+    <Text Include="diagonals_connections.txt" />
+    <Text Include="diagonals_positions.txt" />
+    <Text Include="normal_big_connections.txt" />
+    <Text Include="normal_big_positions.txt" />
+    <Text Include="normal_connections.txt" />
+    <Text Include="normal_positions.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -49,6 +49,9 @@
     <ClCompile Include="NodeButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImagesCache.h">
@@ -74,5 +77,18 @@
     <QtMoc Include="UiBoard.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="GameScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="diagonals_big_connections.txt" />
+    <Text Include="diagonals_big_positions.txt" />
+    <Text Include="diagonals_connections.txt" />
+    <Text Include="diagonals_positions.txt" />
+    <Text Include="normal_big_connections.txt" />
+    <Text Include="normal_big_positions.txt" />
+    <Text Include="normal_connections.txt" />
+    <Text Include="normal_positions.txt" />
   </ItemGroup>
 </Project>

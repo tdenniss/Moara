@@ -224,7 +224,7 @@ void MenuScene::OnCreateLobby()
 
 void MenuScene::SetupWindow(NodesInfo nodeInfoList)
 {
-	//TO DO: notify main client class to swap scenes
+	emit SceneChange(m_sdk, m_type, m_size, nodeInfoList);
 }
 
 void MenuScene::SetPvpConfig(int numberOfPlayers, int boardConfiguration)
