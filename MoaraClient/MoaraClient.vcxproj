@@ -126,7 +126,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MenuSceneTest.cpp" />
     <ClCompile Include="NodeButton.cpp" />
     <ClCompile Include="UiBoard.cpp" />
     <QtRcc Include="MoaraClient.qrc" />
@@ -140,7 +139,6 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="ImagesCache.h" />
     <ClInclude Include="IUiBoard.h" />
-    <ClInclude Include="MenuSceneTest.h" />
     <ClInclude Include="Stylesheets.h" />
     <QtMoc Include="NodeButton.h" />
     <QtMoc Include="UiBoard.h" />
