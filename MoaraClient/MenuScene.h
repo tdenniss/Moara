@@ -83,7 +83,6 @@ private:
 	const std::string SERVER_ADDRESS = "localhost";
 	const unsigned short PORT = 53000;
 
-	//MoaraClient* m_boardWindow;
 	bool m_firstShow;
 
 	EBoardType m_type;

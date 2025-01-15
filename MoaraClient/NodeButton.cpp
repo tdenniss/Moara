@@ -54,6 +54,47 @@ void NodeButton::Highlight(QPen pen)
 	update();
 }
 
+void NodeButton::paintEvent(QPaintEvent* event) {
+
+
+	auto parent = dynamic_cast<IUiBoard*>(this->parent());
+
+	QPainter painter(this);
+
+	painter.setRenderHint(QPainter::Antialiasing);
+
+	painter.setBrush(Qt::white);
+
+	auto penSize = m_isHighlighted ? 5 : 1;
+	auto penColor = m_isHighlighted ? m_highlightPen.color() : Qt::black;
+
+	painter.setPen(QPen(penColor, penSize));
+
+	QRect baseRectangle(0, 0, width(), height());
+	painter.drawEllipse(baseRectangle);
+
+	int centerX = (width() - PIECE_IMAGE_WIDTH) / 2;
+	int centerY = (height() - PIECE_IMAGE_HEIGHT) / 2;
+
+	QRect centerRect(centerX, centerY, PIECE_IMAGE_WIDTH, PIECE_IMAGE_HEIGHT);
+
+	if (m_type != EPieceType::None)
+		painter.drawImage(centerRect, parent->GetImagesCache().GetImage(m_type));
+}
+
+void NodeButton::mousePressEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::LeftButton)
+	{
+		emit clicked(m_nodeIndex);
+	}
+	else if (event->button() == Qt::RightButton)
+	{
+		emit rightClicked(m_nodeIndex);
+	}
+	QPushButton::mousePressEvent(event);
+}
+
 void NodeButton::ResetHighlight()
 {
 	if (m_isHighlighted)
@@ -62,6 +103,33 @@ void NodeButton::ResetHighlight()
 		m_highlightPen = QPen(Qt::red, 5);
 		update();
 	}
+}
+
+void NodeButton::mouseReleaseEvent(QMouseEvent* event) {
+	QPushButton::mouseReleaseEvent(event);
+}
+
+void NodeButton::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::LeftButton)
+	{
+		auto parent = dynamic_cast<IUiBoard*>(this->parent());
+
+		if (parent->GetFirstSelectedNodeIndex() == -1)
+		{
+			parent->SetFirstSelectedNodeIndex(m_nodeIndex);
+			emit highlightMove(m_nodeIndex);
+		}
+
+		else if (parent->GetFirstSelectedNodeIndex() != -1)
+		{
+			int fromindex = parent->GetFirstSelectedNodeIndex();
+			parent->SetFirstSelectedNodeIndex(-1);
+
+			emit moveClicked(static_cast<uint8_t>(fromindex), m_nodeIndex);
+		}
+	}
+
 }
 
 bool NodeButton::operator<(const NodeButton& other) const {

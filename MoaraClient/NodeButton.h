@@ -27,7 +27,16 @@ public:
 
 	bool operator<(const NodeButton& other) const;
 	bool operator==(const NodeButton& other) const;
-
+protected:
+	void paintEvent(QPaintEvent* event) override;
+	void mousePressEvent(QMouseEvent* event) override;
+	void mouseDoubleClickEvent(QMouseEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
+signals:
+	void clicked(uint8_t index);
+	void rightClicked(uint8_t index);
+	void moveClicked(uint8_t fromIndex, uint8_t toIndex);
+	void highlightMove(uint8_t index);
 private:
 	EPieceType m_type;
 
