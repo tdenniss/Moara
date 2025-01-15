@@ -126,21 +126,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MenuSceneTest.cpp" />
     <ClCompile Include="NodeButton.cpp" />
     <ClCompile Include="UiBoard.cpp" />
     <QtRcc Include="MoaraClient.qrc" />
     <QtUic Include="MoaraClient.ui" />
     <QtMoc Include="MoaraClient.h" />
-    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="MoaraClient.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />
-    <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImagesCache.h" />
     <ClInclude Include="IUiBoard.h" />
+    <ClInclude Include="MenuSceneTest.h" />
     <ClInclude Include="Stylesheets.h" />
     <QtMoc Include="NodeButton.h" />
     <QtMoc Include="UiBoard.h" />

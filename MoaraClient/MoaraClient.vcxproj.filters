@@ -40,9 +40,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MenuScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,12 +49,12 @@
     <ClCompile Include="NodeButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MenuSceneTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImagesCache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IUiBoard.h">
@@ -69,15 +66,18 @@
     <ClInclude Include="Stylesheets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MenuSceneTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="UiBoard.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="NodeButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="MenuScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="UiBoard.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
