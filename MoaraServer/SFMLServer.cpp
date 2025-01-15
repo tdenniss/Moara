@@ -1,6 +1,5 @@
 #include "SfmlServer.h"
 #include "Lobby.h"
-#include "InvalidMoveException.h"
 
 #include <iostream>
 
@@ -443,17 +442,7 @@ void SfmlServer::OnNewServerData(void *receivedData, SocketPtr client)
 
 	if (callbackIt != m_commands.end())
 	{
-		try
-		{
-			m_commands[notificationType](receivedData, client);
-		} catch (InvalidMoveException e)
-		{
-			auto [message, size] = JsonMessageHandler::MakeJson("error"
-																, std::make_pair("errorMessage", e.what())
-			);
-
-			SendData(message, size, GetClientIndex(client));
-		}
+		m_commands[notificationType](receivedData, client);
 	}
 }
 

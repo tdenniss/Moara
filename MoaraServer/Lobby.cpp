@@ -1,7 +1,6 @@
 #include "Lobby.h"
 
 #include "IServer.h"
-#include "InvalidMoveException.h"
 #include "JsonMessageHandler.h"
 #include "EnumStringMaker.h"
 
