@@ -274,8 +274,22 @@ void GameScene::ConnectMethods()
 		connect(board, &UiBoard::move, this, &GameScene::OnMove);
 		connect(board, &UiBoard::highlightMove, this, &GameScene::OnHighlightMove);
 		connect(m_undoButton, &QPushButton::clicked, this, &GameScene::OnUndo);
+		connect(m_exitButton, &QPushButton::clicked, this, &GameScene::OnLeaveGame);
 		connect(m_timer, &QTimer::timeout, this, &GameScene::UpdateTimer);
 	}
+}
+
+void GameScene::ResetScene()
+{
+	/*m_board->ResetNodesHighlight();
+	m_board->ResetComputerNodesHighlight();
+	m_board->UpdateBoard(NodesInfo());
+	m_board->update();*/
+	m_sdk->SetListener(nullptr);
+	m_errorLabel->clear();
+	m_movingPlayerLabel->clear();
+	m_computerThinking->clear();
+	m_timerLabel->setText("0");
 }
 
 void GameScene::InitLayouts()
@@ -363,12 +377,13 @@ void GameScene::OnUndo()
 	m_sdk->Undo();
 }
 
+void GameScene::OnLeaveGame()
+{
+	ResetScene();
+	emit LeaveGame();
+}
+
 void GameScene::UpdateTimer()
 {
 	m_sdk->GetTimer();
-}
-
-void GameScene::paintEvent(QPaintEvent* event)
-{
-
 }

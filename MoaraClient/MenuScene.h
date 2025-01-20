@@ -82,6 +82,9 @@ private:
 	template<typename... Slots>
 	void ConnectButton(QPushButton* button, int group, Slots... uiSlots);
 	void ConnectAllButtons();
+
+	void ResetScene();
+
 private:
 	const std::string SERVER_ADDRESS = "localhost";
 	const unsigned short PORT = 53000;

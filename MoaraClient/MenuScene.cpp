@@ -47,6 +47,13 @@ void MenuScene::ConnectAllButtons()
 	ConnectButton(m_createLobby, -1, &MenuScene::OnCreateLobby);
 }
 
+void MenuScene::ResetScene()
+{
+	m_type = EBoardType::Normal;
+	m_size = EBoardSize::Normal;
+	m_level = EComputerLevel::Easy;
+}
+
 void MenuScene::InitGraphics()
 {
 	this->setMinimumHeight(700);
@@ -224,6 +231,7 @@ void MenuScene::OnCreateLobby()
 
 void MenuScene::SetupWindow(NodesInfo nodeInfoList)
 {
+	ResetScene();
 	emit SceneChange(m_sdk, m_type, m_size, nodeInfoList);
 }
 
@@ -294,6 +302,8 @@ void MenuScene::showEvent(QShowEvent* event)
 
 		InitGraphics();
 		ConnectAllButtons();
+
+		m_firstShow = false;
 	}
 }
 

@@ -50,6 +50,9 @@ public:
 
 	void InitGraphics();
 
+signals:
+	void LeaveGame();
+
 protected:
 	void showEvent(QShowEvent* event) override;
 
@@ -61,6 +64,8 @@ private:
 	void CustomizeLabels(QLabel* label);
 
 	void ConnectMethods();
+
+	void ResetScene();
 
 public slots:
 	void OnSceneChange(IClientSDKPtr sdk, EBoardType type, EBoardSize size, NodesInfo nodeInfoList);
@@ -74,15 +79,13 @@ public slots:
 	void OnRemoveNodeClicked(uint8_t index);
 	void OnMove(uint8_t fromIndex, uint8_t toIndex);
 	void OnUndo();
+	void OnLeaveGame();
 
 	void OnHighlightMove(uint8_t index);
 	void OnHighlightRemove();
 
 private slots:
 	void UpdateTimer();
-
-protected:
-	void paintEvent(QPaintEvent* event) override;
 
 private:
 	IUiBoard* m_board;
