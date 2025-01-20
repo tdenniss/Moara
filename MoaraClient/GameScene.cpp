@@ -18,7 +18,7 @@ GameScene::GameScene(QWidget* parent)
 	, m_board(nullptr)
 	, m_movingPlayerLabel(new QLabel(""))
 	, m_errorLabel(new QLabel(""))
-	, m_undoButton(new QPushButton(this))
+	, m_undoButton(new QPushButton())
 	, m_timerLabel(new QLabel("0"))
 	, m_computerThinking(new QLabel(""))
 	, m_firstShow(true)
@@ -220,7 +220,6 @@ void GameScene::OnSceneChange(IClientSDKPtr sdk, EBoardType type, EBoardSize siz
 {
 	m_sdk = sdk;
 	SetBoard(IUiBoard::Produce(type, size, nodeInfoList));
-	//InitGraphics();
 }
 
 void GameScene::UpdateBoard(NodesInfo nodeInfoList)
@@ -239,8 +238,6 @@ void GameScene::ShowMessage(const QString& message)
 
 void GameScene::InitGraphics()
 {
-	setStyleSheet(windowBackground);
-
 	if (!m_board)
 	{
 		ShowMessage("Board not set");
@@ -262,9 +259,7 @@ void GameScene::showEvent(QShowEvent* event)
 	m_timer = new QTimer(this);
 	m_timer->start(250);
 	if (m_firstShow) {
-		m_vertical1 = findChild<QVBoxLayout*>("vertical1");
 		InitGraphics();
-		connect(m_timer, &QTimer::timeout, this, &GameScene::UpdateTimer);
 		m_firstShow = false;
 	}
 	update();
@@ -279,45 +274,29 @@ void GameScene::ConnectMethods()
 		connect(board, &UiBoard::move, this, &GameScene::OnMove);
 		connect(board, &UiBoard::highlightMove, this, &GameScene::OnHighlightMove);
 		connect(m_undoButton, &QPushButton::clicked, this, &GameScene::OnUndo);
+		connect(m_timer, &QTimer::timeout, this, &GameScene::UpdateTimer);
 	}
 }
 
 void GameScene::InitLayouts()
-{
-	QHBoxLayout* buttonsLayout = new QHBoxLayout();
-
-	buttonsLayout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-	buttonsLayout->addWidget(m_errorLabel);
-	buttonsLayout->addWidget(m_undoButton, Qt::AlignHCenter);
-	buttonsLayout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-
-	QHBoxLayout* labelLayout = new QHBoxLayout();
-
-	labelLayout->addWidget(m_movingPlayerLabel);
-	labelLayout->addWidget(m_computerThinking);
-	labelLayout->addWidget(m_timerLabel);
-
-	m_vertical1->addLayout(labelLayout);
-	m_vertical1->addWidget(m_board);
-	m_vertical1->addLayout(buttonsLayout);
+{;
+	m_gameWidget->layout()->addWidget(m_board);
 }
 
 void GameScene::InitWidgets()
 {
-	CustomizeLabels(m_errorLabel);
-	CustomizeLabels(m_movingPlayerLabel);
-	CustomizeLabels(m_timerLabel);
-	CustomizeLabels(m_computerThinking);
+	m_board->setMinimumHeight(300);
+	m_board->setMinimumWidth(300);
 
-	m_board->setMinimumHeight(700);
-	m_board->setMinimumWidth(700);
-
-	m_errorLabel->setStyleSheet("QLabel { color : red; }");
-	m_timerLabel->setStyleSheet("QLabel { color : red; }");
+	m_gameWidget = findChild<QWidget*>("gameWidget");
+	m_errorLabel = findChild<QLabel*>("errorLabel");
+	m_exitButton = findChild<QPushButton*>("exitGameButton");
+	m_undoButton = findChild<QPushButton*>("undoMoveButton");
+	m_timerLabel = findChild<QLabel*>("timerLabel");
+	m_movingPlayerLabel = findChild<QLabel*>("movingPlayerLabel");
+	m_computerThinking = findChild<QLabel*>("computerThinkingLabel");
 
 	m_sdk->GetActivePlayer();
-
-	InitButtons();
 }
 
 void GameScene::CustomizeLabels(QLabel* label)
@@ -328,15 +307,6 @@ void GameScene::CustomizeLabels(QLabel* label)
 	label->setAlignment(Qt::AlignHCenter);
 	label->setFixedHeight(30);
 	label->setFont(font);
-}
-
-void GameScene::InitButtons()
-{
-	m_undoButton->setStyleSheet(buttonStyle);
-	m_undoButton->setText("Undo Move");
-	m_undoButton->setFixedWidth(200);
-	m_undoButton->setFixedHeight(50);
-	m_undoButton->show();
 }
 
 void GameScene::ShowStartingWindow()

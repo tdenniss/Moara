@@ -56,7 +56,6 @@ protected:
 private:
 	void InitLayouts();
 	void InitWidgets();
-	void InitButtons();
 
 	void SetLabels(EPieceType playerType, bool isComputer);
 	void CustomizeLabels(QLabel* label);
@@ -94,8 +93,9 @@ private:
 	QLabel* m_movingPlayerLabel;
 	QLabel* m_computerThinking;
 	QPushButton* m_undoButton;
+	QPushButton* m_exitButton;
 
-	QVBoxLayout* m_vertical1;
+	QWidget* m_gameWidget;
 
 	IClientSDKPtr m_sdk;
 
