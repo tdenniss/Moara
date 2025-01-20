@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="LoginManager.cpp" />
     <ClCompile Include="NodeButton.cpp" />
     <ClCompile Include="UiBoard.cpp" />
     <QtRcc Include="MoaraClient.qrc" />
@@ -141,6 +142,7 @@
     <QtMoc Include="GameScene.h" />
     <ClInclude Include="ImagesCache.h" />
     <ClInclude Include="IUiBoard.h" />
+    <QtMoc Include="LoginManager.h" />
     <ClInclude Include="Stylesheets.h" />
     <QtMoc Include="NodeButton.h" />
     <QtMoc Include="UiBoard.h" />

@@ -4,4 +4,8 @@
         <file alias="red">Resources/red.png</file>
         <file alias="white">Resources/white.png</file>
     </qresource>
+    <qresource prefix="/others">
+        <file alias="hide_password">Resources/hide_password.png</file>
+        <file alias="view_password">Resources/view_password.png</file>
+    </qresource>
 </RCC>
