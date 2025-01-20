@@ -1,4 +1,4 @@
-#include "LogInManager.h"
+#include "LoginManager.h"
 #include <iomanip>
 
 LoginManager::LoginManager(QWidget* parent)
@@ -25,6 +25,7 @@ void LoginManager::showEvent(QShowEvent* event) {
 		m_nameInput = findChild<QLineEdit*>("enterNameLogInInput");
 		m_passwordInput = findChild<QLineEdit*>("enterPasswordLogInInput");
 		m_logInButton = findChild<QPushButton*>("logInButton");
+		m_signupButton = findChild<QPushButton*>("goToSignUpFromLogInButton");
 		m_incorrectCredentialsLabel = findChild<QLabel*>("incorrectCredentialsLabel");
 		m_togglePasswordView = findChild<QPushButton*>("toggleLogInPasswordViewButton");
 
@@ -41,7 +42,8 @@ void LoginManager::showEvent(QShowEvent* event) {
 
 void LoginManager::OnLogInCredentialsSent() noexcept
 {
-	
+	emit GoToMenu();
+	//TO DO: Implement login logic
 }
 
 void LoginManager::OnTogglePasswordView() noexcept

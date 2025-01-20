@@ -129,6 +129,12 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="LoginManager.cpp" />
     <ClCompile Include="NodeButton.cpp" />
+    <ClCompile Include="SignupManager.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
     <ClCompile Include="UiBoard.cpp" />
     <QtRcc Include="MoaraClient.qrc" />
     <QtUic Include="MoaraClient.ui" />
@@ -143,6 +149,7 @@
     <ClInclude Include="ImagesCache.h" />
     <ClInclude Include="IUiBoard.h" />
     <QtMoc Include="LoginManager.h" />
+    <QtMoc Include="SignupManager.h" />
     <ClInclude Include="Stylesheets.h" />
     <QtMoc Include="NodeButton.h" />
     <QtMoc Include="UiBoard.h" />

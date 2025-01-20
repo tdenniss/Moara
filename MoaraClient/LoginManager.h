@@ -11,7 +11,7 @@ class LoginManager : public QFrame
 	Q_OBJECT
 
 public:
-	LoginManager(QWidget* parent);
+	LoginManager(QWidget* parent = nullptr);
 	~LoginManager();
 
 public slots:
@@ -19,7 +19,7 @@ public slots:
 
 signals:
 	void GoToSignUpScene();
-	void GoToLobby();
+	void GoToMenu();
 
 private slots:
 	void OnLogInCredentialsSent() noexcept;
