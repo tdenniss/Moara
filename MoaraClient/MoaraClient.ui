@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1677</width>
-    <height>673</height>
+    <width>1719</width>
+    <height>657</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,6 +29,12 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: transparent</string>
       </property>
@@ -2052,6 +2058,12 @@ QPushButton:hover {
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QFrame" name="frame">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="frameShape">
            <enum>QFrame::Shape::StyledPanel</enum>
           </property>
@@ -2100,11 +2112,21 @@ QPushButton:hover {
                 <property name="font">
                  <font>
                   <pointsize>15</pointsize>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: white;
-color: red;</string>
+                 <string notr="true">background: qlineargradient(
+        x1: 0, y1: 0,
+        x2: 0, y2: 1,
+        stop: 0 #ffdddd,
+        stop: 1 #ffeeee
+);
+color: red;
+border: 2px solid #ff6666;
+border-radius: 20px;
+padding: 5px;
+font-weight: bold;</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -2339,6 +2361,7 @@ color: black;</string>
                 <property name="font">
                  <font>
                   <pointsize>15</pointsize>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
@@ -2358,6 +2381,24 @@ color: red;</string>
            </item>
            <item row="1" column="0">
             <widget class="QWidget" name="gameWidget" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>300</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>1700</width>
+               <height>600</height>
+              </size>
+             </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 237, 171);</string>
              </property>

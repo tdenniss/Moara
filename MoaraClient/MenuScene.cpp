@@ -231,8 +231,8 @@ void MenuScene::OnCreateLobby()
 
 void MenuScene::SetupWindow(NodesInfo nodeInfoList)
 {
-	ResetScene();
 	emit SceneChange(m_sdk, m_type, m_size, nodeInfoList);
+	ResetScene();
 }
 
 void MenuScene::SetPvpConfig(int numberOfPlayers, int boardConfiguration)

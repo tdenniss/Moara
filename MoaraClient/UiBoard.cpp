@@ -79,8 +79,8 @@ void UiBoard::UpdateNodePositions()
 	int offsetX = (width / (maxX + 1)) * m_nodesDistanceFactor;
 	int offsetY = (height / (maxY + 1)) * m_nodesDistanceFactor;
 
-	int baseOffset = 20;
-	int minWindowSize = 700;
+	int baseOffset = 10;
+	int minWindowSize = 300;
 	int dynamicOffsetX = baseOffset * (width / static_cast<float>(minWindowSize));
 	int dynamicOffsetY = baseOffset * (height / static_cast<float>(minWindowSize));
 

@@ -299,9 +299,6 @@ void GameScene::InitLayouts()
 
 void GameScene::InitWidgets()
 {
-	m_board->setMinimumHeight(300);
-	m_board->setMinimumWidth(300);
-
 	m_gameWidget = findChild<QWidget*>("gameWidget");
 	m_errorLabel = findChild<QLabel*>("errorLabel");
 	m_exitButton = findChild<QPushButton*>("exitGameButton");
