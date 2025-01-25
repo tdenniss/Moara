@@ -87,7 +87,7 @@ private:
 
 private:
 	const std::string SERVER_ADDRESS = "localhost";
-	const unsigned short PORT = 53000;
+	const unsigned short PORT = 1234;
 
 	bool m_firstShow;
 

@@ -25,14 +25,14 @@
     <Filter Include="Header Files\Player">
       <UniqueIdentifier>{fbbacc9c-c26b-4552-9594-3cb57a0c1ba4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Logic Management">
-      <UniqueIdentifier>{b5d9ac6e-8651-4715-8c23-861f90dbafa2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ComputerPlayer">
       <UniqueIdentifier>{78eff359-d18d-4568-a162-5d262a22b890}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Server">
+    <Filter Include="Header Files\ServerHandler">
       <UniqueIdentifier>{6c9f0ece-ad3f-493d-8dda-8fd11059195f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SDK">
+      <UniqueIdentifier>{b5d9ac6e-8651-4715-8c23-861f90dbafa2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,20 +72,23 @@
     <ClInclude Include="JsonMessageHandler.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="IServerHandler.h">
-      <Filter>Header Files\Server</Filter>
-    </ClInclude>
     <ClInclude Include="SFMLServerHandler.h">
-      <Filter>Header Files\Server</Filter>
+      <Filter>Header Files\ServerHandler</Filter>
     </ClInclude>
     <ClInclude Include="SDK.h">
-      <Filter>Header Files\Logic Management</Filter>
+      <Filter>Header Files\SDK</Filter>
     </ClInclude>
     <ClInclude Include="IClientSDK.h">
-      <Filter>Header Files\Logic Management</Filter>
+      <Filter>Header Files\SDK</Filter>
     </ClInclude>
     <ClInclude Include="IClientSDKListener.h">
-      <Filter>Header Files\Logic Management</Filter>
+      <Filter>Header Files\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="HandlerType.h">
+      <Filter>Header Files\ServerHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="IServerHandler.h">
+      <Filter>Header Files\ServerHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,5 +101,13 @@
     <ClCompile Include="IClientSDK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QtServerHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="QtServerHandler.h">
+      <Filter>Header Files\ServerHandler</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

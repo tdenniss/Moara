@@ -10,7 +10,7 @@ class SDK : public IClientSDK
 {
 public:
 	SDK() = default;
-	SDK(std::string ip, int port);
+	SDK(std::string ip, int port, IServerHandlerPtr serverHandler);
 	~SDK();
 
 	void SetListener(IClientSDKListener* listener) override;

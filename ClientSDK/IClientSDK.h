@@ -1,6 +1,7 @@
 #pragma once
 #include "IGameConfig.h"
 #include "EPieceType.h"
+#include "HandlerType.h"
 #include "IClientSDKListener.h"
 
 #include <functional>
@@ -12,7 +13,7 @@ using IClientSDKPtr = std::shared_ptr<class IClientSDK>;
 class IClientSDK
 {
 public:
-	static IClientSDKPtr Create(std::string ip, int port);
+	static IClientSDKPtr Create(std::string ip, int port, HandlerType handlerType);
 
 	virtual void SetListener(IClientSDKListener* listener) = 0;
 

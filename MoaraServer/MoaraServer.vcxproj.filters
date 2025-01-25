@@ -3,58 +3,59 @@
   <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Lobby">
-      <UniqueIdentifier>{483f6274-fa4b-492e-a3cc-5414ad192196}</UniqueIdentifier>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
     </Filter>
-    <Filter Include="Header Files\Server">
-      <UniqueIdentifier>{0a2f974b-61ac-49d8-93bb-9d475cafbbe4}</UniqueIdentifier>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
     </Filter>
     <Filter Include="Header Files\Utils">
-      <UniqueIdentifier>{18d1720d-7462-481e-b9cb-cdb68eb76ec3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Lobby">
-      <UniqueIdentifier>{3bc61f12-b4ec-4cc6-9bcf-663135440a47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Server">
-      <UniqueIdentifier>{9a53a99e-581a-41e7-9f8c-b8675dd3f2f2}</UniqueIdentifier>
+      <UniqueIdentifier>{7ca2008e-ebf7-4752-a76b-ade32333a250}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="QtServerHandler.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="QtServerHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lobby.cpp">
-      <Filter>Source Files\Lobby</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SFMLServer.cpp">
-      <Filter>Source Files\Server</Filter>
+    <ClCompile Include="MainServer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lobby.h">
-      <Filter>Header Files\Lobby</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IServerHandler.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JsonMessageHandler.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="IServer.h">
-      <Filter>Header Files\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="SFMLServer.h">
-      <Filter>Header Files\Server</Filter>
+    <ClInclude Include="MainServer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

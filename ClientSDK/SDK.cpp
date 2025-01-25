@@ -1,9 +1,10 @@
 #include "SDK.h"
-#include "SFMLServerHandler.h"
-#include "JsonMessageHandler.h"
 
-SDK::SDK(std::string ip, int port)
-	: m_serverHandler(std::make_shared<SFMLServerHandler>())
+#include "JsonMessageHandler.h"
+#include "EComputerLevel.h"
+
+SDK::SDK(std::string ip, int port, IServerHandlerPtr serverHandler)
+	: m_serverHandler(serverHandler)
 	, m_listener(nullptr)
 {
 	InitializeCommands();
@@ -262,8 +263,8 @@ void SDK::InitializeCommands()
 	{
 		auto type = JsonMessageHandler::GetFromParam<int>("boardType", data);
 		auto size = JsonMessageHandler::GetFromParam<int>("boardSize", data);
-		auto levelString = JsonMessageHandler::GetFromParam<std::string>("level", data);
-		auto level = EComputerLevelStringMaker::GetEnumFromString(levelString);
+		auto levelInt = JsonMessageHandler::GetFromParam<int>("level", data);
+		auto level = (EComputerLevel)levelInt;
 		m_listener->OnChangedConfig(static_cast<EBoardType>(type), static_cast<EBoardSize>(size), level);
 	}},
 	};

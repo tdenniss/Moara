@@ -12,54 +12,55 @@ class JsonMessageHandler
 {
 public:
 	template<typename ... Args>
-	static std::pair<void *, int> MakeJson(const void *command, Args ... args)
+	static std::pair<void*, int> MakeJson(const void* command, Args ... args)
 	{
 		Json json;
-		json["action"] = (char *)command;
+		json["action"] = (char*)command;
 
 		if constexpr (sizeof...(args) > 0)
 		{
 			Json parameters;
 
-			auto add_to_parameters = [&parameters](const auto &pair)
-			{
-				parameters[pair.first] = pair.second;
-			};
+			auto add_to_parameters = [&parameters](const auto& pair)
+				{
+					parameters[pair.first] = pair.second;
+				};
 
 			(add_to_parameters(args), ...);
 
 			json["parameters"] = parameters;
-		} else
+		}
+		else
 			json["parameters"] = "";
 
 		std::string jsonString = json.dump();
-		char *buffer = new char[jsonString.size() + 1];
+		char* buffer = new char[jsonString.size() + 1];
 		std::memcpy(buffer, jsonString.c_str(), jsonString.size() + 1);
 
-		return std::make_pair(static_cast<void *>(buffer), static_cast<int>(jsonString.size()));
+		return std::make_pair(static_cast<void*>(buffer), static_cast<int>(jsonString.size()));
 	}
 
 	template<typename T>
-	static T GetFromParam(const void *tag, const void *data)
+	static T GetFromParam(const void* tag, const void* data)
 	{
-		Json json = Json::parse((char *)data);
+		Json json = Json::parse((char*)data);
 
 		Json param = json["parameters"];
 
-		return param[(char *)tag].get<T>();
+		return param[(char*)tag].get<T>();
 	}
 
 	template<typename T>
-	static T GetFromCommand(const void *tag, const void *data)
+	static T GetFromCommand(const void* tag, const void* data)
 	{
-		Json json = Json::parse((char *)data);
+		Json json = Json::parse((char*)data);
 
-		return json[(char *)tag].get<T>();
+		return json[(char*)tag].get<T>();
 	}
 
-	static GameConfigPtr BuildGameConfig(const void *data)
+	static GameConfigPtr BuildGameConfig(const void* data)
 	{
-		Json jsonData = Json::parse((char *)data);
+		Json jsonData = Json::parse((char*)data);
 
 		Json param = jsonData["parameters"];
 
@@ -79,7 +80,7 @@ public:
 		{
 			if (it.key().find("player_") != std::string::npos)
 			{
-				const Json &playerDetailsJson = it.value();
+				const Json& playerDetailsJson = it.value();
 
 				int playerType = playerDetailsJson["action"].get<int>();
 				bool isAI = playerDetailsJson["ai"].get<bool>();
@@ -98,11 +99,11 @@ public:
 		return config;
 	}
 
-	static std::pair<void *, int> BuildNodesVector(const NodeList &nodes)
+	static std::pair<void*, int> BuildNodesVector(const NodeList& nodes)
 	{
 		Json nodesArray = Json::array();
 
-		for (const auto &node : nodes)
+		for (const auto& node : nodes)
 		{
 			Json nodeJson = {
 				{"index", node->GetIndex()},
@@ -117,9 +118,9 @@ public:
 		response["parameters"]["nodes"] = nodesArray;
 
 		std::string jsonString = response.dump();
-		char *buffer = new char[jsonString.size() + 1];
+		char* buffer = new char[jsonString.size() + 1];
 		std::memcpy(buffer, jsonString.c_str(), jsonString.size() + 1);
 
-		return std::make_pair(static_cast<void *>(buffer), static_cast<int>(jsonString.size()));
+		return std::make_pair(static_cast<void*>(buffer), static_cast<int>(jsonString.size()));
 	}
 };

@@ -1,15 +1,18 @@
 #pragma once
 #include "IGame.h"
 
+#include "IServerHandler.h"
+
 #include <vector>
 
 using ClientIds = std::vector<int>;
-using ServerPtr = class IServer *;
+using LobbySharedPtr = std::shared_ptr<class Lobby>;
+using Lobbies = std::vector<LobbySharedPtr>;
 
-class Lobby: public IGameListener, public std::enable_shared_from_this<Lobby>
+class Lobby : public IGameListener, public std::enable_shared_from_this<Lobby>
 {
 public:
-	Lobby(int id, ServerPtr server);
+	Lobby(int id, ServerHandlerPtr server);
 
 	//IGameListener
 	void OnMoveMade(uint8_t fromNodeIndex, uint8_t toNodeIndex, EPieceType fromNodeType) override;
@@ -25,19 +28,21 @@ public:
 
 	void SetNumberOfPlayers(int players);
 
-	void NotifyAllClients(const void *json, int size);
+	void NotifyAllClients(const void* json, int size);
 	void AddClient(int id);
 	void RemoveClient(int id);
 
 	bool IsClientInLobby(int clientId) const;
 
 	int GetMaxPlayers() const;
+	int GetNumberOfPlayers() const;
 	int GetClientIndexInLobby(int clientId) const;
 	int GetLobbyId() const;
+
 private:
 	int m_lobbyId;
 	ClientIds m_clientIDs;
 	IGamePtr m_game;
-	ServerPtr m_server;
+	ServerHandlerPtr m_serverHandler;
 	int m_maxPlayers;
 };

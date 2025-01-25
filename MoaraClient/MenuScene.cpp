@@ -11,6 +11,7 @@
 #include <ranges>
 #include <algorithm>
 #include "IClientSDK.h"
+#include "SDK.h"
 
 MenuScene::MenuScene(QWidget* parent)
 	: QWidget(parent)
@@ -20,9 +21,10 @@ MenuScene::MenuScene(QWidget* parent)
 	, m_config()
 {
 	m_firstShow = true;
-	m_sdk = IClientSDK::Create(SERVER_ADDRESS, PORT);
-	qRegisterMetaType<NodesInfo>("NodesInfo");
+	
+	m_sdk = IClientSDK::Create(SERVER_ADDRESS, PORT, HandlerType::QtWebSockets);
 	m_sdk->SetListener(this);
+	qRegisterMetaType<NodesInfo>("NodesInfo");
 	this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	m_config = std::make_shared<GameConfig>();

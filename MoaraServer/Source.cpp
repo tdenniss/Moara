@@ -1,25 +1,16 @@
-#include "SfmlServer.h"
+﻿#include <QCoreApplication>
 
-#include <iostream>
+#include "MainServer.h"
 
-int PORT = 53000;
-
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
 {
-	if (argc == 2)
-	{
-		PORT = std::stoi(argv[1]);
-	}
+	QCoreApplication a(argc, argv);
 
-	SfmlServer server;
+	MainServer server;
+	const quint16 port = 1234;
 
-	if (!server.Init(PORT))
-	{
-		std::cerr << "Error: Could not listen on port " << PORT << std::endl;
+	if (!server.Start(port))
 		return -1;
-	}
 
-	server.Start();
-
-	return 0;
+	return a.exec();
 }
