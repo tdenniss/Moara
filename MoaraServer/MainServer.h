@@ -4,6 +4,8 @@
 #include "Lobby.h"
 #include "JsonMessageHandler.h"
 
+#include <pqxx/pqxx>
+
 using Command = std::function<void(void* data, int clientId)>;
 using CommandMap = std::unordered_map <std::string, Command>;
 
@@ -24,8 +26,18 @@ private:
 	void RemoveLobby(LobbySharedPtr lobby);
 	IGamePtr GetGame(int clientId);
 
+	void ConnectToDatabase();
+	void ReadDatabaseConfig();
+
 private:
 	ServerHandlerPtr m_serverHandler;
+
+	pqxx::connection* m_dbConnection;
+	std::string m_dbname;
+	std::string m_user;
+	std::string m_password;
+	std::string m_hostaddr;
+	int m_port;
 
 	Lobbies m_lobbies;
 	int m_lastLobbyId;

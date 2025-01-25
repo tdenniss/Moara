@@ -15,6 +15,9 @@ public:
 
 	void SetListener(IClientSDKListener* listener) override;
 
+	void SignUp(std::string username, std::string password) override;
+	void Login(std::string username, std::string password) override;
+
 	void PlacePiece(uint8_t index) override;
 	void RemovePiece(uint8_t index) override;
 	void MovePiece(uint8_t from, uint8_t to) override;

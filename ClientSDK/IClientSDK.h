@@ -18,6 +18,9 @@ public:
 	virtual void SetListener(IClientSDKListener* listener) = 0;
 
 	//requests
+	virtual void SignUp(std::string username, std::string password) = 0;
+	virtual void Login(std::string username, std::string password) = 0;
+
 	virtual void CreateLobby() = 0;
 	virtual void JoinLobby(int id) = 0;
 

@@ -22,8 +22,6 @@ MenuScene::MenuScene(QWidget* parent)
 {
 	m_firstShow = true;
 	
-	m_sdk = IClientSDK::Create(SERVER_ADDRESS, PORT, HandlerType::QtWebSockets);
-	m_sdk->SetListener(this);
 	qRegisterMetaType<NodesInfo>("NodesInfo");
 	this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -307,6 +305,8 @@ void MenuScene::showEvent(QShowEvent* event)
 
 		m_firstShow = false;
 	}
+
+	m_sdk->SetListener(this);
 }
 
 void MenuScene::ShowMessage(const std::string& message)
@@ -475,6 +475,11 @@ void MenuScene::OnServerDisconnect()
 {
 	QMetaObject::invokeMethod(this, "ShowMessage", Qt::QueuedConnection
 		, Q_ARG(std::string, "lost connection to server, please restart"));
+}
+
+void MenuScene::OnGoToMenu(IClientSDKPtr sdk)
+{
+	m_sdk = sdk;
 }
 
 void MenuScene::OnStartGame()

@@ -10,15 +10,18 @@ MoaraClient::MoaraClient(QWidget *parent)
 void MoaraClient::SetupConnections()
 {
 	//Log in Scene
-	QObject::connect(ui.logInViewFrame, &LoginManager::GoToMenu, [this]() {
+	QObject::connect(ui.logInViewFrame, &LoginManager::GoToMenu, [this](IClientSDKPtr sdk) {
+		ui.menuScene->OnGoToMenu(sdk);
 		ui.stackedWidget->setCurrentWidget(ui.menuScene);
 	});
-	QObject::connect(ui.logInViewFrame, &LoginManager::GoToSignUpScene, [this]() {
+	QObject::connect(ui.logInViewFrame, &LoginManager::GoToSignUpScene, [this](IClientSDKPtr sdk) {
+		ui.signUpViewFrame->OnGoToSignUp(sdk);
 		ui.stackedWidget->setCurrentWidget(ui.signupScene);
 	});
 
 	//Sign up Scene
-	QObject::connect(ui.signUpViewFrame, &SignupManager::GoToLogIn, [this]() {
+	QObject::connect(ui.signUpViewFrame, &SignupManager::GoToLogIn, [this](IClientSDKPtr sdk) {
+		ui.logInViewFrame->OnGoToLogin(sdk);
 		ui.stackedWidget->setCurrentWidget(ui.loginScene);
 	});
 

@@ -135,6 +135,9 @@
     <ClInclude Include="Lobby.h" />
     <ClInclude Include="MainServer.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="DatabaseConnection.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

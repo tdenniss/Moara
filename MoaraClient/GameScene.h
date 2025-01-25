@@ -24,6 +24,8 @@ public:
 	~GameScene();
 
 	// IClientSDKListener
+	void OnSignUpSuccess() override {};
+	void OnLoginSuccess() override {};
 	void OnGameStarted() override {}
 	void OnJoinedLobby(int lobbyId) override {}
 	void OnCreatedLobby(int lobbyId) override {}

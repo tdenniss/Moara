@@ -14,6 +14,9 @@ using PiecesIndexes = std::vector<uint8_t>;
 class IClientSDKListener
 {
 public:
+	virtual void OnSignUpSuccess() = 0;
+	virtual void OnLoginSuccess() = 0;
+
 	virtual void OnCreatedLobby(int lobbyId) = 0;
 	virtual void OnJoinedLobby(int lobbyId) = 0;
 

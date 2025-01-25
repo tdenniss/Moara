@@ -1,6 +1,9 @@
 #include "MainServer.h"
 
+#include <sstream>
+
 #include "QtServerHandler.h"
+#include <iostream>
 
 bool MainServer::Start(unsigned short port)
 {
@@ -25,6 +28,8 @@ bool MainServer::Start(unsigned short port)
 		m_serverHandler = nullptr;
 		return false;
 	}
+
+	ConnectToDatabase();
 
 	return true;
 }
@@ -56,6 +61,63 @@ void MainServer::OnClientDisconnected(int clientId)
 void MainServer::InitializeCommands()
 {
 	m_commands = {
+	{"signUp", [this](void* data, int clientId)
+	{
+		auto username = JsonMessageHandler::GetFromParam<std::string>("username", data);
+		auto password = JsonMessageHandler::GetFromParam<std::string>("password", data);
+
+		pqxx::work W(*m_dbConnection);
+
+		std::string sql = "SELECT add_user(" + W.quote(username) + ", " + W.quote(password) + ")";
+		pqxx::result R = W.exec(sql);
+
+		if (R[0][0].as<bool>())
+		{
+			auto [message, size] = JsonMessageHandler::MakeJson("signUpSuccess");
+			m_serverHandler->SendData(message, size, clientId);
+		}
+		else
+		{
+			auto [message, size] = JsonMessageHandler::MakeJson("error"
+				, std::make_pair("errorMessage", "user allready exists"));
+			m_serverHandler->SendData(message, size, clientId);
+		}
+
+		W.commit();
+	}},
+
+	{"login", [this](void* data, int clientId)
+	{
+		auto username = JsonMessageHandler::GetFromParam<std::string>("username", data);
+		auto password = JsonMessageHandler::GetFromParam<std::string>("password", data);
+
+		pqxx::work W(*m_dbConnection);
+
+		std::string sql = "SELECT check_credentials(" + W.quote(username) + ", " + W.quote(password) + ")";
+		pqxx::result R = W.exec(sql);
+
+		if (R[0][0].as<bool>())
+		{
+			auto [message, size] = JsonMessageHandler::MakeJson("loginSuccess");
+			m_serverHandler->SendData(message, size, clientId);
+		}
+		else
+		{
+			auto [message, size] = JsonMessageHandler::MakeJson("error"
+				, std::make_pair("errorMessage", "wrong credentials"));
+			m_serverHandler->SendData(message, size, clientId);
+		}
+
+		W.commit();
+
+		//verificam daca are cont
+		//	error ca are deja
+		//adaugam in bd
+		//mesaj ca s-a adaugat
+		/*auto [message, size] = JsonMessageHandler::MakeJson("", std::make_pair("",));
+		m_serverHandler->SendData(message, size, clientId);*/
+	}},
+
 	{"createLobby", [this](void* data, int clientId)
 	{
 		auto lobbyId = GetLobbyIdFromClient(clientId);
@@ -347,4 +409,62 @@ IGamePtr MainServer::GetGame(int clientId)
 {
 	int lobbyId = GetLobbyIdFromClient(clientId);
 	return m_lobbies[lobbyId]->GetGame();
+}
+
+void MainServer::ConnectToDatabase()
+{
+	try
+	{
+		ReadDatabaseConfig();
+
+		std::ostringstream connectionString;
+		connectionString << "dbname=" << m_dbname
+						<< " user=" << m_user
+						<< " password=" << m_password
+						<< " hostaddr=" << m_hostaddr
+						<< " port=" << m_port;
+
+		m_dbConnection = new pqxx::connection(connectionString.str());
+
+		if (m_dbConnection->is_open())
+			std::cerr << "Connected to database successfully: " << m_dbConnection->dbname() << std::endl;
+		else
+			std::cerr << "Failed to connect to database." << std::endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Exception while connecting to database: " << e.what() << std::endl;
+	}
+}
+
+void MainServer::ReadDatabaseConfig()
+{
+	std::ifstream file("DatabaseConnection.txt");
+
+	std::string line;
+	while (std::getline(file, line)) {
+		size_t pos = line.find('=');
+		if (pos == std::string::npos) continue;
+
+		std::string key = line.substr(0, pos);
+		std::string value = line.substr(pos + 1);
+
+		if (key == "dbname") {
+			m_dbname = value;
+		}
+		else if (key == "user") {
+			m_user = value;
+		}
+		else if (key == "password") {
+			m_password = value;
+		}
+		else if (key == "hostaddr") {
+			m_hostaddr = value;
+		}
+		else if (key == "port") {
+			m_port = std::stoi(value);
+		}
+	}
+
+	file.close();
 }

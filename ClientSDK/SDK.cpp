@@ -131,6 +131,24 @@ void SDK::GetActivePlayer()
 	m_serverHandler->SendRequest(message, size);
 }
 
+void SDK::SignUp(std::string username, std::string password)
+{
+	auto [message, size] = JsonMessageHandler::MakeJson("signUp"
+		, std::make_pair("username", username)
+		, std::make_pair("password", password));
+
+	m_serverHandler->SendRequest(message, size);
+}
+
+void SDK::Login(std::string username, std::string password)
+{
+	auto [message, size] = JsonMessageHandler::MakeJson("login"
+		, std::make_pair("username", username)
+		, std::make_pair("password", password));
+
+	m_serverHandler->SendRequest(message, size);
+}
+
 void SDK::OnNewData(void* data)
 {
 	Json notification = Json::parse((char*)data);
@@ -152,6 +170,16 @@ void SDK::OnServerDisconnected()
 void SDK::InitializeCommands()
 {
 	m_commands = {
+	{"signUpSuccess", [this](void* data)
+	{
+		m_listener->OnSignUpSuccess();
+	}},
+
+	{"loginSuccess", [this](void* data)
+	{
+		m_listener->OnLoginSuccess();
+	}},
+
 	{"setupBoard", [this](void* data)
 	{
 		m_listener->OnSetupBoard(JsonMessageHandler::GetNodesFromJson(data));

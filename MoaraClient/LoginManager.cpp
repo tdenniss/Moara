@@ -11,6 +11,9 @@ LoginManager::LoginManager(QWidget* parent)
 	, m_signupButton{ new QPushButton{} }
 	, m_incorrectCredentialsLabel{ new QLabel{} }
 {
+	m_sdk = IClientSDK::Create(SERVER_ADDRESS, PORT, HandlerType::QtWebSockets);
+	m_sdk->SetListener(this);
+
 	m_viewPasswordIcon = QIcon(QPixmap(":/others/view_password"));
 	m_hidePasswordIcon = QIcon(QPixmap(":/others/hide_password"));
 	m_incorrectCredentialsText = "Incorrect username or password. Please try again.";
@@ -18,6 +21,22 @@ LoginManager::LoginManager(QWidget* parent)
 
 LoginManager::~LoginManager()
 {
+}
+
+void LoginManager::OnLoginSuccess()
+{
+
+	emit GoToMenu(m_sdk);
+}
+
+void LoginManager::OnError(const std::string& message)
+{
+
+}
+
+void LoginManager::OnGoToLogin(IClientSDKPtr sdk)
+{
+	m_sdk = sdk;
 }
 
 void LoginManager::showEvent(QShowEvent* event) {
@@ -32,18 +51,19 @@ void LoginManager::showEvent(QShowEvent* event) {
 		QObject::connect(m_logInButton, &QPushButton::released, this, &LoginManager::OnLogInCredentialsSent);
 		QObject::connect(m_togglePasswordView, &QPushButton::released, this, &LoginManager::OnTogglePasswordView);
 		QObject::connect(m_signupButton, &QPushButton::released, this, [this]() {
-			emit GoToSignUpScene();
+			emit GoToSignUpScene(m_sdk);
 		});
 
 		m_firstShow = false;
 	}
 	m_incorrectCredentialsLabel->clear();
+
+	m_sdk->SetListener(this);
 }
 
 void LoginManager::OnLogInCredentialsSent() noexcept
 {
-	emit GoToMenu();
-	//TO DO: Implement login logic
+	m_sdk->Login(m_nameInput->text().toStdString(), m_passwordInput->text().toStdString());
 }
 
 void LoginManager::OnTogglePasswordView() noexcept

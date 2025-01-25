@@ -14,6 +14,22 @@ SignupManager::SignupManager(QWidget* parent)
 	m_incorrectCredentialsText = "Credentials match existing account.";
 }
 
+void SignupManager::OnSignUpSuccess()
+{
+
+	emit GoToLogIn(m_sdk);
+}
+
+void SignupManager::OnError(const std::string& message)
+{
+
+}
+
+void SignupManager::OnGoToSignUp(IClientSDKPtr sdk)
+{
+	m_sdk = sdk;
+}
+
 void SignupManager::showEvent(QShowEvent* event) {
 	if (m_firstShow) {
 		m_nameInput = findChild<QLineEdit*>("enterNameSignUpInput");
@@ -26,18 +42,19 @@ void SignupManager::showEvent(QShowEvent* event) {
 		QObject::connect(m_signUpButton, &QPushButton::released, this, &SignupManager::OnSignUpCredentialsSent);
 		QObject::connect(m_togglePasswordView, &QPushButton::released, this, &SignupManager::OnTogglePasswordView);
 		QObject::connect(m_goToLogInButton, &QPushButton::released, this, [this]() {
-			emit GoToLogIn();
+			emit GoToLogIn(m_sdk);
 		});
 
 		m_firstShow = false;
 	}
 	m_alreadyExistingAccountLabel->clear();
+
+	m_sdk->SetListener(this);
 }
 
 void SignupManager::OnSignUpCredentialsSent() noexcept
 {
-	emit GoToLogIn();
-	//TO DO: Implement signup logic
+	m_sdk->SignUp(m_nameInput->text().toStdString(), m_passwordInput->text().toStdString());
 }
 
 void SignupManager::OnTogglePasswordView() noexcept

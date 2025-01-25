@@ -29,6 +29,8 @@ public:
 	~MenuScene();
 
 public: // IClientSDKListener
+	void OnSignUpSuccess() override {};
+	void OnLoginSuccess() override {};
 	void OnGameStarted() override;
 	void OnJoinedLobby(int lobbyId) override;
 	void OnCreatedLobby(int lobbyId) override;
@@ -54,6 +56,8 @@ signals:
 	void SceneChange(IClientSDKPtr sdk, EBoardType type, EBoardSize size, NodesInfo nodeInfoList);
 
 public slots:
+	void OnGoToMenu(IClientSDKPtr sdk);
+
 	void OnStartGame();
 	void OnTypeSelected();
 	void OnSizeSelected();
@@ -86,9 +90,6 @@ private:
 	void ResetScene();
 
 private:
-	const std::string SERVER_ADDRESS = "localhost";
-	const unsigned short PORT = 1234;
-
 	bool m_firstShow;
 
 	EBoardType m_type;
