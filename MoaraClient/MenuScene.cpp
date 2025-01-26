@@ -169,6 +169,7 @@ void MenuScene::OnPlayerSelected()
 		}
 		else if (buttonText == "PvP")
 		{
+			m_level = EComputerLevel::None;
 
 			if (m_size == EBoardSize::Normal)
 			{
