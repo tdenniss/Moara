@@ -53,6 +53,8 @@ private:
 	void OnTogglePasswordView() noexcept;
 
 private:
+	const std::string kEmptyFieldError = "Please fill in all the fields!";
+
 	IClientSDKPtr m_sdk;
 
 	bool m_firstShow;
@@ -64,7 +66,6 @@ private:
 	QPushButton* m_goToLogInButton;
 
 	QLabel* m_alreadyExistingAccountLabel;
-	QString m_incorrectCredentialsText;
 
 	QIcon m_viewPasswordIcon;
 	QIcon m_hidePasswordIcon;

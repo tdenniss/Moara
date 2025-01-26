@@ -79,7 +79,7 @@ void MainServer::InitializeCommands()
 		else
 		{
 			auto [message, size] = JsonMessageHandler::MakeJson("error"
-				, std::make_pair("errorMessage", "user allready exists"));
+				, std::make_pair("errorMessage", "User already exists"));
 			m_serverHandler->SendData(message, size, clientId);
 		}
 
@@ -104,7 +104,7 @@ void MainServer::InitializeCommands()
 		else
 		{
 			auto [message, size] = JsonMessageHandler::MakeJson("error"
-				, std::make_pair("errorMessage", "wrong credentials"));
+				, std::make_pair("errorMessage", "Wrong credentials"));
 			m_serverHandler->SendData(message, size, clientId);
 		}
 

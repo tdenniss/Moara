@@ -71,6 +71,5 @@ private:
 	QIcon m_viewPasswordIcon;
 	QIcon m_hidePasswordIcon;
 
-	QLabel* m_incorrectCredentialsLabel{ new QLabel{} };
-	QString m_incorrectCredentialsText{ "Incorrect username or password. Please try again." };
+	QLabel* m_incorrectCredentialsLabel;
 };

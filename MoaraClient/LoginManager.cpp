@@ -16,7 +16,6 @@ LoginManager::LoginManager(QWidget* parent)
 
 	m_viewPasswordIcon = QIcon(QPixmap(":/others/view_password"));
 	m_hidePasswordIcon = QIcon(QPixmap(":/others/hide_password"));
-	m_incorrectCredentialsText = "Incorrect username or password. Please try again.";
 }
 
 LoginManager::~LoginManager()
@@ -25,13 +24,13 @@ LoginManager::~LoginManager()
 
 void LoginManager::OnLoginSuccess()
 {
-
 	emit GoToMenu(m_sdk);
 }
 
 void LoginManager::OnError(const std::string& message)
 {
-
+	m_incorrectCredentialsLabel->setText(QString::fromStdString(message));
+	m_incorrectCredentialsLabel->show();
 }
 
 void LoginManager::OnGoToLogin(IClientSDKPtr sdk)

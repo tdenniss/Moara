@@ -6,23 +6,24 @@ SignupManager::SignupManager(QWidget* parent)
 	, m_nameInput{ new QLineEdit{} }
 	, m_passwordInput{ new QLineEdit{} }
 	, m_signUpButton{ new QPushButton{} }
+	, m_goToLogInButton{ new QPushButton{} }
 	, m_togglePasswordView{ new QPushButton{} }
 	, m_alreadyExistingAccountLabel{ new QLabel{} }
 {
 	m_viewPasswordIcon = QIcon(QPixmap(":/others/view_password"));
 	m_hidePasswordIcon = QIcon(QPixmap(":/others/hide_password"));
-	m_incorrectCredentialsText = "Credentials match existing account.";
 }
 
 void SignupManager::OnSignUpSuccess()
 {
-
+	m_alreadyExistingAccountLabel->clear();
 	emit GoToLogIn(m_sdk);
 }
 
 void SignupManager::OnError(const std::string& message)
 {
-
+	m_alreadyExistingAccountLabel->setText(QString::fromStdString(message));
+	m_alreadyExistingAccountLabel->show();
 }
 
 void SignupManager::OnGoToSignUp(IClientSDKPtr sdk)
@@ -54,6 +55,11 @@ void SignupManager::showEvent(QShowEvent* event) {
 
 void SignupManager::OnSignUpCredentialsSent() noexcept
 {
+	if (m_nameInput->text().isEmpty() || m_passwordInput->text().isEmpty()) {
+		m_alreadyExistingAccountLabel->setText(QString::fromStdString(kEmptyFieldError));
+		m_alreadyExistingAccountLabel->show();
+		return;
+	}
 	m_sdk->SignUp(m_nameInput->text().toStdString(), m_passwordInput->text().toStdString());
 }
 
