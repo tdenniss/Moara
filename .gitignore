@@ -400,4 +400,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Ignore DatabaseConnection.txt
-MoaraServer/DatabaseConnection.txt
+/MoaraServer/DatabaseConnection.txt

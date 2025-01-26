@@ -37,13 +37,19 @@ bool MainServer::Start(unsigned short port)
 
 void MainServer::OnMessageReceived(const void* data, int size, int clientId)
 {
-	std::string notificationType = JsonMessageHandler::GetFromCommand<std::string>("action", data);
+	try {
+		std::string notificationType = JsonMessageHandler::GetFromCommand<std::string>("action", data);
 
-	auto callbackIt = m_commands.find(notificationType);
+		auto callbackIt = m_commands.find(notificationType);
 
-	if (callbackIt != m_commands.end())
+		if (callbackIt != m_commands.end())
+		{
+			m_commands[notificationType](const_cast<void*>(data), clientId);
+		}
+	}
+	catch (const std::exception& e)
 	{
-		m_commands[notificationType](const_cast<void *>(data), clientId);
+		std::cerr << "Invalid JSON" << std::endl;
 	}
 }
 
@@ -110,13 +116,6 @@ void MainServer::InitializeCommands()
 		}
 
 		W.commit();
-
-		//verificam daca are cont
-		//	error ca are deja
-		//adaugam in bd
-		//mesaj ca s-a adaugat
-		/*auto [message, size] = JsonMessageHandler::MakeJson("", std::make_pair("",));
-		m_serverHandler->SendData(message, size, clientId);*/
 	}},
 
 	{"createLobby", [this](void* data, int clientId)

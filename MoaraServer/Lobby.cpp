@@ -119,7 +119,8 @@ void Lobby::RemoveClient(int id)
 	{
 		if (m_clientIDs[i] == id)
 		{
-			m_game->RemovePlayerFromGame(static_cast<EPlayerType>(i));
+			if (m_game)
+				m_game->RemovePlayerFromGame(static_cast<EPlayerType>(i));
 
 			m_clientIDs[i] = -1;
 
