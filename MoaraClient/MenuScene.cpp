@@ -47,13 +47,6 @@ void MenuScene::ConnectAllButtons()
 	ConnectButton(m_createLobby, -1, &MenuScene::OnCreateLobby);
 }
 
-void MenuScene::ResetScene()
-{
-	m_type = EBoardType::Normal;
-	m_size = EBoardSize::Normal;
-	m_level = EComputerLevel::Easy;
-}
-
 void MenuScene::InitGraphics()
 {
 	this->setMinimumHeight(700);
@@ -186,6 +179,7 @@ void MenuScene::OnPlayerSelected()
 			}
 
 			m_levelLabel->setText(QString::fromStdString("PvP"));
+			m_level = EComputerLevel::None;
 		}
 
 		m_sdk->ChangeConfig(static_cast<int>(m_size), static_cast<int>(m_type), m_level);
@@ -233,7 +227,6 @@ void MenuScene::OnCreateLobby()
 void MenuScene::SetupWindow(NodesInfo nodeInfoList)
 {
 	emit SceneChange(m_sdk, m_type, m_size, nodeInfoList);
-	ResetScene();
 }
 
 void MenuScene::SetPvpConfig(int numberOfPlayers, int boardConfiguration)
@@ -306,7 +299,6 @@ void MenuScene::showEvent(QShowEvent* event)
 
 		m_firstShow = false;
 	}
-
 	m_sdk->SetListener(this);
 }
 

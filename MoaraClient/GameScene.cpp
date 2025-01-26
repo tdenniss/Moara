@@ -236,32 +236,23 @@ void GameScene::ShowMessage(const QString& message)
 	messageBox->show();
 }
 
-void GameScene::InitGraphics()
-{
-	if (!m_board)
-	{
-		ShowMessage("Board not set");
-	}
-
-	InitWidgets();
-
-	InitLayouts();
-
-	m_board->update();
-
-	ConnectMethods();
-
-}
-
 void GameScene::showEvent(QShowEvent* event)
 {
 	m_sdk->SetListener(this);
 	m_timer = new QTimer(this);
 	m_timer->start(250);
 	if (m_firstShow) {
-		InitGraphics();
+		InitWidgets();
 		m_firstShow = false;
 	}
+	if (!m_board)
+	{
+		ShowMessage("Board not set");
+	}
+	m_sdk->GetActivePlayer();
+	InitLayouts();
+	m_board->update();
+	ConnectMethods();
 	update();
 }
 
@@ -281,15 +272,15 @@ void GameScene::ConnectMethods()
 
 void GameScene::ResetScene()
 {
-	/*m_board->ResetNodesHighlight();
-	m_board->ResetComputerNodesHighlight();
-	m_board->UpdateBoard(NodesInfo());
-	m_board->update();*/
-	m_sdk->SetListener(nullptr);
+	m_timer->stop();
+	m_gameWidget->layout()->removeWidget(m_board);
+	delete m_board;
+	m_board = nullptr;
 	m_errorLabel->clear();
 	m_movingPlayerLabel->clear();
 	m_computerThinking->clear();
 	m_timerLabel->setText("0");
+	update();
 }
 
 void GameScene::InitLayouts()
@@ -306,8 +297,6 @@ void GameScene::InitWidgets()
 	m_timerLabel = findChild<QLabel*>("timerLabel");
 	m_movingPlayerLabel = findChild<QLabel*>("movingPlayerLabel");
 	m_computerThinking = findChild<QLabel*>("computerThinkingLabel");
-
-	m_sdk->GetActivePlayer();
 }
 
 void GameScene::CustomizeLabels(QLabel* label)

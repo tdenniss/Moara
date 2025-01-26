@@ -50,8 +50,6 @@ public:
 	// own methods
 	void SetBoard(IUiBoard* board);
 
-	void InitGraphics();
-
 signals:
 	void LeaveGame();
 

@@ -87,8 +87,6 @@ private:
 	void ConnectButton(QPushButton* button, int group, Slots... uiSlots);
 	void ConnectAllButtons();
 
-	void ResetScene();
-
 private:
 	bool m_firstShow;
 
