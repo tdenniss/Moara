@@ -30,6 +30,9 @@ void Lobby::NotifyAllClients(const void* message, int size)
 {
 	for (const auto& currentClientId : m_clientIDs)
 	{
+		if (currentClientId == -1)
+			continue;
+
 		m_serverHandler->SendData(message, size, currentClientId);
 	}
 }
@@ -112,11 +115,13 @@ void Lobby::AddClient(int id)
 
 void Lobby::RemoveClient(int id)
 {
-	for (auto it = m_clientIDs.begin(); it != m_clientIDs.end(); ++it)
+	for (int i = 0; i < m_clientIDs.size(); ++i)
 	{
-		if (*it == id)
+		if (m_clientIDs[i] == id)
 		{
-			m_clientIDs.erase(it);
+			m_game->RemovePlayerFromGame(static_cast<EPlayerType>(i));
+
+			m_clientIDs[i] = -1;
 
 			auto [message, size] = JsonMessageHandler::MakeJson("playerLeft");
 			NotifyAllClients(message, size);
@@ -133,7 +138,12 @@ int Lobby::GetMaxPlayers() const
 
 int Lobby::GetNumberOfPlayers() const
 {
-	return m_clientIDs.size();
+	int numberOfPlayers = 0;
+	for (auto player : m_clientIDs)
+		if (player != -1)
+			++numberOfPlayers;
+
+	return numberOfPlayers;
 }
 
 int Lobby::GetClientIndexInLobby(int clientId) const

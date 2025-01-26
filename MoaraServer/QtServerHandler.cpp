@@ -67,6 +67,8 @@ void QtServerHandler::SendData(const void* data, int dataSize, int clientId)
 			},
 			Qt::QueuedConnection);
 	}
+
+	qDebug() << "Sent message to clientId = " << clientId << " : " << textMessage;
 }
 
 void QtServerHandler::SetDataReceivedCallback(DataReceivedCallback callback)

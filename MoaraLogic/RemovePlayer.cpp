@@ -31,6 +31,9 @@ RemovePlayer::RemovePlayer(Game* game, PlayerPtr player)
 
 void RemovePlayer::Execute()
 {
+	if (m_game->m_state == EGameState::Finished)
+		return;
+
 	EPlayerType playerType = m_player;
 
 	auto it = std::find_if(m_game->m_players.begin(), m_game->m_players.end(),
