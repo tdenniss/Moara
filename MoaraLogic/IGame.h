@@ -57,6 +57,7 @@ public:
     virtual void SetComputerLevel(ComputerLevelPtr computerLevel) = 0;
     virtual void SetComputerLevel(EComputerLevel level) = 0;
     virtual void SetPlayerConfig(PlayerConfig& config) = 0;
+    virtual void RemovePlayerFromGame(EPlayerType player) = 0;
 
     virtual ~IGame() = default;
 };

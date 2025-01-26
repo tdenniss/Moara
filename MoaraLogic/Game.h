@@ -51,6 +51,7 @@ public:
 	PieceIndexes GetPossibleRemoves()					const override final;
 
 	double GetRoundTime()							const override final;
+	void RemovePlayerFromGame(EPlayerType player) override final;
 
 	void SetBoard(IBoardPtr board);
 

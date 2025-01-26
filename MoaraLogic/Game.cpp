@@ -582,6 +582,21 @@ double Game::GetRoundTime() const
 	return roundTime < playerTime ? roundTime : playerTime;
 }
 
+void Game::RemovePlayerFromGame(EPlayerType playerType)
+{
+	for (auto player : m_players)
+	{
+		if (player->GetType() == playerType)
+		{
+			m_moves.push_back(std::make_shared<RemovePlayer>(RemovePlayer(this, player)));
+
+			m_moves.back()->Execute();
+
+			return;
+		}
+	}
+}
+
 void Game::CheckBlocks()
 {
 	for (int index = 0; index < m_players.size();)
