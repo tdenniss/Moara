@@ -26,7 +26,7 @@ private:
 	void RemoveLobby(LobbySharedPtr lobby);
 	IGamePtr GetGame(int clientId);
 
-	void ConnectToDatabase();
+	bool ConnectToDatabase();
 	void ReadDatabaseConfig();
 
 private:

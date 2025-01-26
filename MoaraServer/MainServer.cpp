@@ -29,7 +29,8 @@ bool MainServer::Start(unsigned short port)
 		return false;
 	}
 
-	ConnectToDatabase();
+	if (!ConnectToDatabase())
+		return false;
 
 	return true;
 }
@@ -411,7 +412,7 @@ IGamePtr MainServer::GetGame(int clientId)
 	return m_lobbies[lobbyId]->GetGame();
 }
 
-void MainServer::ConnectToDatabase()
+bool MainServer::ConnectToDatabase()
 {
 	try
 	{
@@ -434,7 +435,10 @@ void MainServer::ConnectToDatabase()
 	catch (const std::exception& e)
 	{
 		std::cerr << "Exception while connecting to database: " << e.what() << std::endl;
+		return false;
 	}
+
+	return true;
 }
 
 void MainServer::ReadDatabaseConfig()
