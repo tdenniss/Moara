@@ -131,6 +131,13 @@ void SDK::GetActivePlayer()
 	m_serverHandler->SendRequest(message, size);
 }
 
+void SDK::ExitGame()
+{
+	auto [message, size] = JsonMessageHandler::MakeJson("exitGame");
+
+	m_serverHandler->SendRequest(message, size);
+}
+
 void SDK::SignUp(std::string username, std::string password)
 {
 	auto [message, size] = JsonMessageHandler::MakeJson("signUp"

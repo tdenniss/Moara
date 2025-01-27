@@ -40,6 +40,8 @@ public:
 	void GetWinnigPlayer() override;
 	void GetActivePlayer() override;
 
+	void ExitGame() override;
+
 private:
 	void OnNewData(void* data);
 	void OnServerDisconnected();

@@ -40,4 +40,6 @@ public:
 	virtual void GetPossibleRemoves() = 0;
 	virtual void GetWinnigPlayer() = 0;
 	virtual void GetActivePlayer() = 0;
+
+	virtual void ExitGame() = 0;
 };

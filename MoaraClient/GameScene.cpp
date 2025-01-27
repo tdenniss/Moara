@@ -365,6 +365,7 @@ void GameScene::OnUndo()
 
 void GameScene::OnLeaveGame()
 {
+	m_sdk->ExitGame();
 	ResetScene();
 	emit LeaveGame();
 }

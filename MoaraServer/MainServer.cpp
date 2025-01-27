@@ -335,6 +335,18 @@ void MainServer::InitializeCommands()
 		game->Undo();
 	}},
 
+	{ "exitGame", [this](void* data, int clientId)
+	{
+		int lobbyIndex = GetLobbyIdFromClient(clientId);
+		if (lobbyIndex != -1)
+		{
+			m_lobbies[lobbyIndex]->RemoveClient(clientId);
+
+			if (m_lobbies[lobbyIndex]->GetNumberOfPlayers() == 0)
+				RemoveLobby(GetLobbyFromIndex(lobbyIndex));
+		}
+	}},
+
 	{ "changedConfig", [this](void* data, int clientId)
 	{
 		int lobbyId = GetLobbyIdFromClient(clientId);

@@ -56,7 +56,7 @@ private slots:
 
 private:
 	const std::string SERVER_ADDRESS = "localhost";
-	const unsigned short PORT = 1234;
+	const unsigned short PORT = 12345;
 
 	IClientSDKPtr m_sdk;
 
