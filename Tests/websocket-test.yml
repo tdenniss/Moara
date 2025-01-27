@@ -1,10 +1,11 @@
 config:
-  target: 'ws://localhost:1234'
+  target: 'ws://localhost:12345'
   phases:
     - duration: 10
       arrivalRate: 200
 scenarios:
   - engine: 'ws'
     flow:
-      - send: '{"action":"createLobby","parameters":""}'
+      - send: '{"action":"login","parameters":{"password":"123","username":"Me"}}'
       - think: 1
+      - send: '{"action":"createLobby","parameters":""}'
